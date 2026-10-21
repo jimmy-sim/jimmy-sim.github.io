@@ -47,13 +47,13 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Project descriptions and paper/code links | `projects.html` |
 | Résumé summary | `resume.html` |
 | Downloadable résumé | Replace `resume.pdf` |
-| Email and profile links | `contact.html`; footer links also appear in all six pages |
+| Email and profile links | Footer links in all five HTML pages |
 | Headshot | Replace `headshot.png`; update its width, height, and alt text in `index.html` |
 | Outdoor photo | Replace `outdoor.jpg`; update its dimensions and alt text in `about.html` |
 | Fonts, spacing, colors, mobile layout | `styles.css` |
 | Automatic copyright year | `script.js` |
 
-The six HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across all six. The active navigation link uses `aria-current="page"`.
+The five HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across all five. The active navigation link uses `aria-current="page"`.
 
 ## Common edits
 

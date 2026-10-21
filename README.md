@@ -13,7 +13,6 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `education.html` — schools, degree plans, and coursework.
 - `projects.html` — research and technical projects.
 - `resume.html` — résumé overview and PDF links.
-- `contact.html` — email and profile links.
 - `resume.pdf` — the original uploaded résumé.
 - `headshot.png` — portrait on the home page.
 - `outdoor.jpg` — personal photo on the About page.
@@ -42,7 +41,7 @@ Current Berkeley information and the downloadable résumé come from the more re
 4. Replace `resume.pdf` to update the downloadable document. The web pages use May 2030 as the expected graduation date; the original PDF still lists May 2029 and needs a separate update.
 5. Replace `headshot.png` or `outdoor.jpg` to change the photos. Keep the HTML image dimensions and descriptive `alt` text up to date if a replacement differs. Photos keep their original proportions and stack with the text on mobile.
 6. Change colors and typography in `styles.css`; they apply to every page.
-7. The header and footer are deliberately repeated in the six HTML files to avoid a build system. If you change a navigation link, name, or footer, update all six. Each page marks its own navigation link with `aria-current="page"`.
+7. The header and footer are deliberately repeated in the five HTML files to avoid a build system. If you change a navigation link, name, or footer, update all five. Each page marks its own navigation link with `aria-current="page"`.
 
 Use relative file links such as `education.html` and `resume.pdf` so the site works both locally and on GitHub Pages. Filenames and link capitalization must match.
 

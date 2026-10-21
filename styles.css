@@ -1,4 +1,4 @@
-/* Shared styles for all six pages. No external fonts or build tools. */
+/* Shared styles for all five pages. No external fonts or build tools. */
 :root {
   --text: #404040;
   --heading: #262626;
@@ -58,8 +58,6 @@ section + section { margin-top: 2.5rem; }
 .meta, .dates { color: var(--muted); font-size: 0.88rem; }
 .entry .dates, .entry .meta { margin-bottom: 0.8rem; }
 .summary h3 a { color: var(--heading); }
-.contact-list { list-style: none; margin: 1.8rem 0 0; padding: 0; }
-.contact-list li { margin-bottom: 0.8rem; }
 .document-link { margin-block: 1.8rem; }
 .overview { margin: 0; }
 .overview > div { display: grid; grid-template-columns: 130px 1fr; gap: 1.5rem; border-bottom: 1px solid var(--rule); padding-block: 1rem; }
@@ -80,7 +78,7 @@ dd { margin: 0; }
   body { font-size: 16px; }
   .container { width: calc(100% - 2.5rem); }
   .masthead { padding-block: 1.5rem; }
-  .masthead nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.3rem; }
+  .masthead nav { display: flex; gap: 0.5rem 1.1rem; }
   .site-name { font-size: 1.45rem; }
   main.container { padding-block: 2rem 3rem; }
   .page-title, .introduction h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
