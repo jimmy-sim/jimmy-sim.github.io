@@ -47,7 +47,7 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Project descriptions and paper/code links | `projects.html` |
 | CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
 | Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
-| Résumé summary | `resume.html` |
+| Résumé link beside your biography | `about.html` |
 | Downloadable résumé | Replace `resume.pdf` |
 | Email and profile links | Footer links in all HTML pages |
 | Headshot | Replace `headshot.png`; update its width, height, and alt text in `index.html` |
@@ -83,7 +83,7 @@ The HTML pages each include their own header and footer. Changes to navigation, 
    Or, for a résumé update:
 
    ```sh
-   bash scripts/publish.sh "Update my resume" resume.pdf resume.html
+   bash scripts/publish.sh "Update my resume" resume.pdf
    ```
 
 The helper checks whitespace, stages the named files, commits using your Jimmy Sim identity, and pushes to `main`. It does not check the visual layout or external links. It refuses to proceed if other changes are already staged. A rejected push leaves your commit safe locally; do not force-push. Ask Codex to help reconcile remote updates.

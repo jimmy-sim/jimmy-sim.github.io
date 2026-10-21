@@ -9,10 +9,9 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 ## Pages and files
 
 - `index.html` — home, a brief introduction, and selected work.
-- `about.html` — biography, technical interests, and activities.
+- `about.html` — biography, technical interests, activities, and résumé PDF link.
 - `education.html` — schools, degree plans, and coursework.
 - `projects.html` — research and technical projects.
-- `resume.html` — résumé overview and PDF links.
 - `retinal-imaging.html` and `pothole-detection.html` — research notes with paper-reported results.
 - `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
 - `stock-prediction.html` — a short research note linked from Projects.
