@@ -4,8 +4,9 @@ This is Jimmy Youngjae Sim’s plain HTML/CSS/JavaScript academic website, publi
 
 - Use this existing isolated checkout; do not create a worktree unless requested.
 - Preserve the minimal academic design, separate pages, content, photos, and résumé unless the user requests changes. Do not introduce frameworks, package dependencies, external fonts, or a build step for routine edits.
+- For project materials, prefer concise article-style notes linked from Projects, following the reference site’s restrained layout. Keep the stock-prediction Keynote private; publish only its curated summary and the selected original plots. Do not fabricate plots, results, or evaluation protocols.
 - Keep high-school activities and awards minimal. Prefer a short background summary; reserve detailed activity lists, competition results, and minor internships for the résumé. Keep substantive research contributions and publication links.
-- Keep the shared navigation and footer consistent in all five pages. Preserve `aria-current`, skip links, descriptive image alt text, natural image proportions, and responsive layouts.
+- Keep the shared navigation and footer consistent in all main pages and project notes. Preserve `aria-current`, skip links, descriptive image alt text, natural image proportions, and responsive layouts.
 - Prefer the user’s latest statements and recent résumé over older documents. Current education: UC Berkeley Applied Mathematics, intended Computer Science double major, August 2026–May 2030 expected. Do not invent publications, project links, credentials, dates, or honors. Historical high-school “Present” labels do not establish current activity.
 - Review the working tree and fetch before publishing. Preserve user edits and uploads. This repository was recreated with fresh history; do not merge or push history from its deleted predecessor or local backups.
 - Use commit author and committer `Jimmy Sim <77947780+jimmy-sim@users.noreply.github.com>`. Verify actual commit metadata before pushing. Do not use the Codex account owner’s default Git identity.

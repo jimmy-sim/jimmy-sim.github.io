@@ -45,15 +45,16 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Biography, activities, honors | `about.html` |
 | Schools, coursework, graduation date | `education.html` |
 | Project descriptions and paper/code links | `projects.html` |
+| Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
 | Résumé summary | `resume.html` |
 | Downloadable résumé | Replace `resume.pdf` |
-| Email and profile links | Footer links in all five HTML pages |
+| Email and profile links | Footer links in all HTML pages |
 | Headshot | Replace `headshot.png`; update its width, height, and alt text in `index.html` |
 | Outdoor photo | Replace `outdoor.jpg`; update its dimensions and alt text in `about.html` |
 | Fonts, spacing, colors, mobile layout | `styles.css` |
 | Automatic copyright year | `script.js` |
 
-The five HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across all five. The active navigation link uses `aria-current="page"`.
+The HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across every page. The active navigation link uses `aria-current="page"`.
 
 ## Common edits
 
@@ -61,7 +62,7 @@ The five HTML pages each include their own header and footer. Changes to navigat
 
 **Add a link:** use `<a href="https://example.com">Descriptive link text</a>`. For local files use `resume.pdf` or `education.html`. Match capitalization exactly.
 
-**Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `styles.css`, change that version to the same new value in all five pages so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
+**Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `styles.css`, change that version to the same new value in every page pages so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
 
 **Write special characters:** write `&amp;` for an ampersand in HTML text and `&lt;` for a literal less-than sign. Keep attribute values inside quotes.
 
