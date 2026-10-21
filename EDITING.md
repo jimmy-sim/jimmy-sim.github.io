@@ -45,6 +45,7 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Biography, activities, honors | `about.html` |
 | Schools, coursework, graduation date | `education.html` |
 | Project descriptions and paper/code links | `projects.html` |
+| CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
 | Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
 | Résumé summary | `resume.html` |
 | Downloadable résumé | Replace `resume.pdf` |

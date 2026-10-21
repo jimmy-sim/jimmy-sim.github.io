@@ -121,3 +121,13 @@ dd { margin: 0; }
 .code-sample:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 .code-sample code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 .resource-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.3rem; margin-top: 1.5rem; }
+
+/* Paper results remain readable on narrow screens. */
+.table-scroll { max-width: 100%; overflow-x: auto; margin-block: 1.5rem; }
+.table-scroll:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.results-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.results-table caption { text-align: left; color: var(--muted); font-size: 0.85rem; margin-bottom: 0.7rem; }
+.results-table th, .results-table td { padding: 0.7rem 0.6rem; border-bottom: 1px solid var(--rule); text-align: right; vertical-align: top; }
+.results-table th:first-child { text-align: left; }
+.results-table tbody th { font-weight: 400; }
+.results-table td { white-space: nowrap; font-variant-numeric: tabular-nums; }
