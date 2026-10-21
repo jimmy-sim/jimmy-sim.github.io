@@ -2,6 +2,10 @@
 
 A small, academic-style website made with plain HTML, CSS, and JavaScript. There are no dependencies or build steps. The layout takes inspiration from Matteo Santamaria’s personal site: a compact masthead, narrow reading column, restrained typography, and separate pages.
 
+## Future edits
+
+Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common changes, publishing, and recovery. `AGENTS.md` provides maintenance guidance for future Codex tasks. The optional `scripts/publish.sh` helper publishes only named files using Jimmy’s Git identity.
+
 ## Pages and files
 
 - `index.html` — home, a brief introduction, and selected work.
