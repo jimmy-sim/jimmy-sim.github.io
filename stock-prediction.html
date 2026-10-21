@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Stock Price Forecasting — Jimmy Youngjae Sim</title>
   <meta name="description" content="A short project note comparing recurrent neural networks, LSTMs, and a conditional VAE for stock price forecasting.">
-  <link rel="stylesheet" href="styles.css?v=4b2c3115a3">
+  <link rel="stylesheet" href="styles.css?v=c492c1778a">
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -34,8 +34,34 @@
 
     <section aria-labelledby="approach-title">
       <h2 class="section-title" id="approach-title">Approach</h2>
-      <p>I compared forecasts for Apple, Amazon, Alphabet, Netflix, and NVIDIA, varying the number of training epochs and batch size. The work was discussed with a mentor, using plots of observed and predicted prices to examine how the models behaved under different training settings.</p>
-      <p>The comparison focused on recurrent memory in the RNN and LSTM, and a latent-variable approach in the conditional VAE.</p>
+      <p>I compared forecasts for Apple, Amazon, Alphabet, Netflix, and NVIDIA, varying epochs and batch size. The archived implementation selects GOOGL and predicts the next opening price from the previous 40 trading observations.</p>
+      <p>The code uses an ordered 80/20 training/test split and fits min–max scaling on training prices only. Test windows include the preceding observed prices, making this a rolling one-step prediction task.</p>
+    </section>
+
+    <section aria-labelledby="implementation-title">
+      <h2 class="section-title" id="implementation-title">Implementation</h2>
+      <ul class="method-list">
+        <li><strong>RNN and LSTM:</strong> four recurrent layers of 50 units, each followed by 20% dropout, trained with Adam and mean squared error.</li>
+        <li><strong>VAE-based forecaster:</strong> an LSTM encoder, a four-dimensional latent representation, and a dense decoder. A custom training step combines prediction error with weighted KL divergence; inference decodes the latent mean.</li>
+        <li><strong>Evaluation:</strong> RMSE and MAE compared with a last-observed-price baseline.</li>
+      </ul>
+      <p>The custom loss and gradient update are the core of the variational model:</p>
+      <pre class="code-sample" tabindex="0" aria-label="Excerpt from the VAE training step"><code>kl_loss = -0.5 * tf.reduce_mean(
+    tf.reduce_sum(
+        1 + z_log_var - tf.square(z_mean) - tf.exp(z_log_var),
+        axis=-1,
+    )
+)
+total_loss = pred_loss + (self.kl_weight * kl_loss)
+grads = tape.gradient(total_loss, self.trainable_weights)
+self.optimizer.apply_gradients(zip(grads, self.trainable_weights))</code></pre>
+      <p class="figure-note">Excerpt with formatting adjusted for readability. The archived implementation uses a KL weight of 0.001.</p>
+      <p class="resource-links">
+        <a href="https://github.com/jimmy-sim/jimmy-sim.github.io/blob/main/assets/stock-prediction/stock_price_prediction.py">View source</a>
+        <a href="https://colab.research.google.com/github/jimmy-sim/jimmy-sim.github.io/blob/main/assets/stock-prediction/stock_price_prediction.ipynb">Open in Colab</a>
+        <a href="assets/stock-prediction/stock_price_prediction.ipynb" download>Download notebook</a>
+      </p>
+      <p class="figure-note">The notebook requires <code>all_stocks_5yr.csv</code> and the listed Python packages. It includes setup notes but no dataset or saved outputs.</p>
     </section>
 
     <section aria-labelledby="results-title">
@@ -61,7 +87,7 @@
     <section aria-labelledby="takeaways-title">
       <h2 class="section-title" id="takeaways-title">Takeaways</h2>
       <p>The experiments helped me understand how architecture and training choices affect time-series forecasts. In this example, the LSTM follows the observed series more closely than the vanilla RNN, though the forecasts remain smoother than the actual prices.</p>
-      <p>These plots illustrate model behavior rather than a complete benchmark: they do not establish performance on unseen data or trading profitability. A reproducible comparison would require the original preprocessing, data splits, evaluation code, and baseline results.</p>
+      <p>The archived code documents preprocessing and evaluation, but the dataset and saved scores are not included. These earlier AAPL plots illustrate model behavior; they are not outputs from a fresh run of the GOOGL code.</p>
     </section>
   </main>
   <footer class="site-footer">

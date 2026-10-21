@@ -14,7 +14,7 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `projects.html` — research and technical projects.
 - `resume.html` — résumé overview and PDF links.
 - `stock-prediction.html` — a short research note linked from Projects.
-- `assets/stock-prediction/` — two original AAPL plots extracted from the Keynote.
+- `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
 - `resume.pdf` — the original uploaded résumé.
 - `headshot.png` — portrait on the home page.
 - `outdoor.jpg` — personal photo on the About page.
@@ -66,3 +66,5 @@ There is no compilation step or committed test suite. The site uses no external 
 ## Project notes
 
 The stock-prediction note is a curated summary inspired by the article format of the reference site. Its two plots are original image assets extracted unchanged from the supplied Keynote, not regenerated results. The Keynote and converted slide deck are not published. The note distinguishes visual observations from reproducible benchmark claims. Keep new notes concise and link them from their project entries.
+
+The stock note also includes the supplied Colab code as a Python export and a notebook reconstructed from its three model sections. Executable logic is unchanged; only the generated Colab header was replaced with setup/provenance notes. Neither file contains executed outputs. The dataset and pinned dependency versions were not supplied; model training has not been revalidated in this website environment.
