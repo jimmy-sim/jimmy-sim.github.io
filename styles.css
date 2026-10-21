@@ -1,0 +1,100 @@
+/* Shared styles for all six pages. No external fonts or build tools. */
+:root {
+  --text: #404040;
+  --heading: #262626;
+  --muted: #686868;
+  --link: #28669a;
+  --rule: #e8e8e8;
+  --footer: #f6f6f6;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 1.5rem; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-top: 4px solid var(--heading);
+  background: #fff;
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.container { width: min(100% - 3rem, 820px); margin-inline: auto; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 4px; }
+a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; }
+h1, h2, h3 { color: var(--heading); font-weight: 600; line-height: 1.4; }
+h1 { font-size: 1.85rem; letter-spacing: -0.025em; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.18rem; }
+p { margin: 0 0 1.1rem; }
+.masthead { display: flex; align-items: center; justify-content: space-between; gap: 1.8rem; padding-block: 2rem 1.7rem; border-bottom: 1px solid var(--rule); }
+.site-name { display: block; color: var(--heading); font-size: 1.55rem; font-weight: 400; letter-spacing: 0.015em; line-height: 1.4; }
+.site-description { margin: 0.3rem 0 0; font-size: 0.84rem; color: var(--muted); }
+nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.2rem; }
+.masthead nav { font-size: 0.88rem; }
+.masthead nav a { color: var(--muted); padding-block: 0.3rem; }
+.masthead nav a[aria-current="page"] { color: var(--heading); text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 1px; }
+main.container { flex: 1; padding-block: 2.5rem 4rem; }
+.page-title, .introduction h1 { text-align: center; margin: 0 0 2rem; }
+.introduction { margin: 0; }
+/* Keep photos proportional and aligned with the biography text. */
+.profile-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: start; gap: 2rem; }
+.about-introduction { display: grid; grid-template-columns: minmax(0, 1fr) 230px; align-items: start; gap: 2rem; }
+.profile-photo, .outdoor-photo { display: block; width: 100%; height: auto; border-radius: 3px; }
+.profile-copy p:last-child { margin-bottom: 0; }
+section + section { margin-top: 2.5rem; }
+.section-title { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 2.5rem 0 1.5rem; text-align: center; }
+.section-title::before, .section-title::after { content: ""; width: 45px; height: 1px; background: var(--rule); }
+.entry { padding-block: 0 1.7rem; }
+.entry + .entry { border-top: 1px solid var(--rule); padding-top: 1.7rem; }
+.entry:last-child { padding-bottom: 0; }
+.entry h2, .entry h3 { margin: 0 0 0.45rem; }
+.entry p:last-child { margin-bottom: 0; }
+.meta, .dates { color: var(--muted); font-size: 0.88rem; }
+.entry .dates, .entry .meta { margin-bottom: 0.8rem; }
+.summary h3 a { color: var(--heading); }
+.contact-list { list-style: none; margin: 1.8rem 0 0; padding: 0; }
+.contact-list li { margin-bottom: 0.8rem; }
+.document-link { margin-block: 1.8rem; }
+.overview { margin: 0; }
+.overview > div { display: grid; grid-template-columns: 130px 1fr; gap: 1.5rem; border-bottom: 1px solid var(--rule); padding-block: 1rem; }
+dt { font-weight: 600; color: var(--heading); }
+dd { margin: 0; }
+.site-footer { background: var(--footer); font-size: 0.78rem; color: var(--muted); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
+.footer-inner p { margin: 0; }
+.footer-inner nav { gap: 1.1rem; }
+.skip-link { position: absolute; left: 1rem; top: -5rem; background: #fff; padding: 0.5rem; z-index: 1; }
+.skip-link:focus { top: 0.5rem; }
+
+@media (max-width: 850px) {
+  .masthead { flex-direction: column; text-align: center; gap: 1.1rem; }
+  .masthead nav { justify-content: center; }
+}
+@media (max-width: 540px) {
+  body { font-size: 16px; }
+  .container { width: calc(100% - 2.5rem); }
+  .masthead { padding-block: 1.5rem; }
+  .masthead nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1.3rem; }
+  .site-name { font-size: 1.45rem; }
+  main.container { padding-block: 2rem 3rem; }
+  .page-title, .introduction h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
+  .overview > div { grid-template-columns: 1fr; gap: 0.3rem; }
+  .profile-layout, .about-introduction { grid-template-columns: 1fr; gap: 1.5rem; }
+  .profile-photo { width: 180px; margin-inline: auto; }
+  .outdoor-photo { width: min(100%, 280px); margin-inline: auto; }
+  .footer-inner { flex-direction: column; gap: 0.6rem; text-align: center; }
+}
+@media print {
+  body { border: 0; font-size: 11pt; }
+  .masthead nav, .site-footer, .skip-link { display: none; }
+  .container { width: 100%; }
+  .masthead { padding-top: 0; }
+  main.container { padding-bottom: 0; }
+  a { color: inherit; text-decoration: underline; }
+}

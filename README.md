@@ -1,0 +1,59 @@
+# Jimmy Youngjae Sim — personal website
+
+A small, academic-style website made with plain HTML, CSS, and JavaScript. There are no dependencies or build steps. The layout takes inspiration from Matteo Santamaria’s personal site: a compact masthead, narrow reading column, restrained typography, and separate pages.
+
+## Pages and files
+
+- `index.html` — home, a brief introduction, and selected work.
+- `about.html` — biography, technical interests, and activities.
+- `education.html` — schools, degree plans, and coursework.
+- `projects.html` — research and technical projects.
+- `resume.html` — résumé overview and PDF links.
+- `contact.html` — email and profile links.
+- `resume.pdf` — the original uploaded résumé.
+- `headshot.png` — portrait on the home page.
+- `outdoor.jpg` — personal photo on the About page.
+- `styles.css` — shared layout, typography, mobile, and print styles.
+- `script.js` — optional automatic copyright year. All navigation works without JavaScript.
+
+## Preview
+
+Open `index.html` directly in a browser, or run a local server from the repository directory:
+
+```sh
+python3 -m http.server 8000 --bind 127.0.0.1
+```
+
+On your computer, visit `http://localhost:8000`. Stop the server with **Ctrl+C**. In a cloud terminal, use local HTTP requests for checks; the loopback address is not a public preview URL.
+
+## Content sources
+
+Current Berkeley information and the downloadable résumé come from the more recent résumé and Jimmy’s direct updates. Additional high-school activities and project details come from the older, detailed high-school résumé. Historical “Present” labels are not carried forward as current roles. The newer résumé’s USACO Gold designation is retained where the older document differs. The older document is not published as a second résumé.
+
+## Maintain the site
+
+1. Open the HTML file for the page you want to change and edit the content inside `<main>`.
+2. To add a project, copy an entire project `<article>` in `projects.html`. Give it a unique `id` if you want to link directly to it. Selected projects on the home page link to these IDs.
+3. Add public code or paper URLs when available; none are invented for projects without supplied links.
+4. Replace `resume.pdf` to update the downloadable document. The web pages use May 2030 as the expected graduation date; the original PDF still lists May 2029 and needs a separate update.
+5. Replace `headshot.png` or `outdoor.jpg` to change the photos. Keep the HTML image dimensions and descriptive `alt` text up to date if a replacement differs. Photos keep their original proportions and stack with the text on mobile.
+6. Change colors and typography in `styles.css`; they apply to every page.
+7. The header and footer are deliberately repeated in the six HTML files to avoid a build system. If you change a navigation link, name, or footer, update all six. Each page marks its own navigation link with `aria-current="page"`.
+
+Use relative file links such as `education.html` and `resume.pdf` so the site works both locally and on GitHub Pages. Filenames and link capitalization must match.
+
+## Publish with GitHub Pages
+
+Commit and push the files to `main` in `jimmy-sim/jimmy-sim.github.io`. In **Settings → Pages**, select **Deploy from a branch → main → / (root)** and save. No custom Actions workflow or framework is required.
+
+After deployment succeeds, the site should be available at `https://jimmy-sim.github.io/`. Future pushes to `main` trigger updates. Use the repository’s Actions tab to check deployment status if an update does not appear.
+
+## Before publishing changes
+
+- Open each page directly and follow its navigation links.
+- Check narrow mobile and desktop widths for readable text and overflow.
+- Use Tab to check visible keyboard focus and the “Skip to content” link.
+- Open and download the résumé PDF.
+- Review dates, descriptions, contact details, and all public links.
+
+There is no compilation step or committed test suite. The site uses no external fonts, analytics, or JavaScript libraries.
