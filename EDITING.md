@@ -61,6 +61,8 @@ The five HTML pages each include their own header and footer. Changes to navigat
 
 **Add a link:** use `<a href="https://example.com">Descriptive link text</a>`. For local files use `resume.pdf` or `education.html`. Match capitalization exactly.
 
+**Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `styles.css`, change that version to the same new value in all five pages so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
+
 **Write special characters:** write `&amp;` for an ampersand in HTML text and `&lt;` for a literal less-than sign. Keep attribute values inside quotes.
 
 **Replace a photo or PDF:** keep the existing filename so links continue working. Use a JPEG or PNG for photos and check that the résumé is a real PDF. Update the HTML dimensions to match a new image’s pixel dimensions; CSS displays it at a smaller size without distortion. Do not put private information in public files.
