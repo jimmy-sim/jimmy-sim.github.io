@@ -32,7 +32,7 @@ On your computer, visit `http://localhost:8000`. Stop the server with **Ctrl+C**
 
 ## Content sources
 
-Current Berkeley information and the downloadable résumé come from the more recent résumé and Jimmy’s direct updates. Additional high-school activities and project details come from the older, detailed high-school résumé. Historical “Present” labels are not carried forward as current roles. The newer résumé’s USACO Gold designation is retained where the older document differs. The older document is not published as a second résumé.
+Current Berkeley information and the downloadable résumé come from the more recent résumé and Jimmy’s direct updates. Additional high-school activities and project details come from the older, detailed high-school résumé. Historical “Present” labels are not carried forward as current roles. High-school activities are summarized briefly; detailed awards and activities are left to the résumé. The source résumés disagree on USACO division, so confirm it before adding that distinction. The older document is not published as a second résumé.
 
 ## Maintain the site
 
