@@ -44,7 +44,7 @@
 <h2 class="section-title" id="architecture-title">A shared representation, two tasks</h2>
 <figure class="research-figure">
   <a href="assets/cvd/architecture.jpeg" aria-label="View full-size figure: Retinal image passes through a CNN feature extractor, then branches into age prediction and CVD severity classification."><img src="assets/cvd/architecture.jpeg" width="1735" height="660" alt="Retinal image passes through a CNN feature extractor, then branches into age prediction and CVD severity classification." loading="lazy" decoding="async"></a>
-  <figcaption>Shared feature extractor and task-specific heads, from slide 6 of the research presentation. Select the figure to view it at full size.</figcaption>
+  <figcaption>A shared retinal feature extractor feeds separate age-prediction and severity-classification heads. Select the figure to view it at full size.</figcaption>
 </figure>
 <p>An ImageNet-pretrained ResNet-101 extracts retinal features. Two separate, two-layer networks then predict age and the four severity categories. Sharing the backbone lets both objectives influence the same representation.</p>
 <p>The training objective combines cross-entropy for severity classification with L1 error for age:</p>
@@ -61,12 +61,12 @@
 <h2 class="section-title" id="results-title">What changed with age guidance?</h2>
 <figure class="research-figure compact-figure">
   <a href="assets/cvd/age-ablation.jpeg" aria-label="View full-size figure: Ablation chart compares the full age-guided model with the model without age prediction across accuracy, recall, precision, and F1-score."><img src="assets/cvd/age-ablation.jpeg" width="1659" height="985" alt="Ablation chart compares the full age-guided model with the model without age prediction across accuracy, recall, precision, and F1-score." loading="lazy" decoding="async"></a>
-  <figcaption>Original ablation chart from slide 9; its horizontal axis starts at 0.70. The table below gives the reported accuracy values. Select the figure to view it at full size.</figcaption>
+  <figcaption>Full model compared with the model without age prediction. The horizontal axis starts at 0.70. The table below gives the reported accuracy values. Select the figure to view it at full size.</figcaption>
 </figure><div class="table-scroll" role="region" aria-label="CVD ablation and color-input results" tabindex="0"><table class="results-table"><caption>Accuracy values from Tables 2 and 3 of the published paper.</caption><thead><tr><th scope="col">Configuration</th><th scope="col">Accuracy</th></tr></thead><tbody><tr><th scope="row">Without age-prediction head</th><td>0.7994 ± 0.0007</td></tr><tr><th scope="row">Age-guided model, RGB</th><td>0.8188 ± 0.0011</td></tr><tr><th scope="row">Age-guided model, YCbCr</th><td>0.8207 ± 0.0007</td></tr></tbody></table></div>
 <p>Adding age prediction increased accuracy from 79.94% to 81.88%, a gain of 1.94 percentage points. Changing the full model’s inputs from RGB to YCbCr added a smaller 0.19 percentage points, reaching 82.07%.</p>
 <p>These comparisons are useful because they ask different questions. The ablation tests the value of age supervision; the color-space experiment tests the input representation. The larger change here came from the auxiliary task.</p>
 </section>
-<p class="figure-note">Sources: the coauthored JSR paper and the supplied IGO presentation. Numerical tables follow the published paper; figures are extracted from the presentation. These are the original study’s reported results.</p>
+<p class="figure-note">Reported results are from the coauthored JSR paper linked above.</p>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">

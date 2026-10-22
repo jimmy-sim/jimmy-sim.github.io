@@ -44,41 +44,41 @@
 <h2 class="section-title" id="pipeline-title">Restoration before detection</h2>
 <figure class="research-figure">
   <a href="assets/pothole/deblurring-network.jpeg" aria-label="View full-size figure: An encoder-decoder network transforms a blurred road image into a deblurred image."><img src="assets/pothole/deblurring-network.jpeg" width="1369" height="355" alt="An encoder-decoder network transforms a blurred road image into a deblurred image." loading="lazy" decoding="async"></a>
-  <figcaption>Deblurring stage from slide 6 of the KSEF presentation. Select the figure to view it at full size.</figcaption>
+  <figcaption>An encoder-decoder network restores a blurred road image before detection. Select the figure to view it at full size.</figcaption>
 </figure>
 <p>The first stage is an encoder-decoder restoration network. Its pixel-level L1 loss encourages agreement with the reference image, while a perceptual loss compares VGG19 feature activations to retain higher-level visual structure.</p>
 <div class="plot-comparison">
 <figure class="research-figure">
   <a href="assets/pothole/blurred-road.jpeg" aria-label="View full-size figure: Blurred road image with indistinct edges around several potholes."><img src="assets/pothole/blurred-road.jpeg" width="449" height="300" alt="Blurred road image with indistinct edges around several potholes." loading="lazy" decoding="async"></a>
-  <figcaption>Blurred input, from slide 12. Select the figure to view it at full size.</figcaption>
+  <figcaption>Blurred road image before restoration. Select the figure to view it at full size.</figcaption>
 </figure><figure class="research-figure">
   <a href="assets/pothole/deblurred-road.jpeg" aria-label="View full-size figure: The corresponding restored road image, with more distinct pothole boundaries."><img src="assets/pothole/deblurred-road.jpeg" width="449" height="300" alt="The corresponding restored road image, with more distinct pothole boundaries." loading="lazy" decoding="async"></a>
-  <figcaption>Deblurred output, from slide 12. Select the figure to view it at full size.</figcaption>
+  <figcaption>Restored image with more distinct pothole boundaries. Select the figure to view it at full size.</figcaption>
 </figure>
 </div>
-<p>The second stage detects potholes and returns bounding boxes. The presentation breaks its objective into localization, confidence, and classification terms:</p>
+<p>The second stage detects potholes and returns bounding boxes. Its objective includes localization, confidence, and classification terms:</p>
 <p class="research-equation" aria-label="Detection objective comprises localization, confidence, and classification losses"><var>L</var><sub>detector</sub>: localization + confidence + classification</p>
 <ul class="method-list"><li><strong>Localization:</strong> penalize errors in box position and dimensions.</li><li><strong>Confidence:</strong> distinguish object-containing regions from background.</li><li><strong>Classification:</strong> identify potholes in object-containing regions.</li></ul>
 <p>This distinction matters: recognizing that a pothole exists does not guarantee that its bounding box is accurate.</p>
 </section>
 <section id="evaluation" aria-labelledby="evaluation-title">
 <h2 class="section-title" id="evaluation-title">Evaluating robustness to blur</h2>
-<p>The study used Roboflow pothole images and the Google Bangkit 2021 dataset, covering both longer-distance and closer road views. The manuscript describes combining the datasets with an 80/20 training/test split; the presentation also lists the component datasets’ original sizes.</p>
+<p>The study combined Roboflow pothole images and the Google Bangkit 2021 dataset, covering both longer-distance and closer road views, with an 80/20 training/test split.</p>
 <p>We compared EfficientDet, RetinaNet, FocalNet, YOLOv5, and DETR under three conditions: clear images, blurred images, and blurred images processed by the proposed restoration network.</p>
-<div class="table-scroll" role="region" aria-label="Pothole detector average precision results" tabindex="0"><table class="results-table"><caption>AP scores from Table 1 of the CJSJ submission; also shown in KSEF slide 10.</caption><thead><tr><th scope="col">Detector</th><th scope="col">Clear</th><th scope="col">Blurred</th><th scope="col">Deblurred</th></tr></thead><tbody><tr><th scope="row">EfficientDet</th><td>65.4</td><td>48.1</td><td>54.4</td></tr><tr><th scope="row">RetinaNet</th><td>66.7</td><td>49.5</td><td>54.8</td></tr><tr><th scope="row">FocalNet</th><td>70.1</td><td>53.7</td><td>57.9</td></tr><tr><th scope="row">YOLOv5</th><td>74.7</td><td>54.7</td><td>60.1</td></tr><tr><th scope="row">DETR</th><td>77.5</td><td>57.9</td><td>65.2</td></tr></tbody></table></div>
+<div class="table-scroll" role="region" aria-label="Pothole detector average precision results" tabindex="0"><table class="results-table"><caption>AP scores reported in Table 1 of the linked paper.</caption><thead><tr><th scope="col">Detector</th><th scope="col">Clear</th><th scope="col">Blurred</th><th scope="col">Deblurred</th></tr></thead><tbody><tr><th scope="row">EfficientDet</th><td>65.4</td><td>48.1</td><td>54.4</td></tr><tr><th scope="row">RetinaNet</th><td>66.7</td><td>49.5</td><td>54.8</td></tr><tr><th scope="row">FocalNet</th><td>70.1</td><td>53.7</td><td>57.9</td></tr><tr><th scope="row">YOLOv5</th><td>74.7</td><td>54.7</td><td>60.1</td></tr><tr><th scope="row">DETR</th><td>77.5</td><td>57.9</td><td>65.2</td></tr></tbody></table></div>
 <p>Deblurring improved AP for every architecture relative to the blurred condition. For YOLOv5, AP rose from 54.7 to 60.1: a gain of 5.4 AP points, or approximately 9.9% relative improvement.</p>
-<p>The presentation separately reports a pothole true-positive rate of 66.9% under blur and 89.9% after restoration. This recognition improvement should be read alongside AP: the presentation identifies further improvement in localization as an open problem.</p>
+<p>The pothole true-positive rate increased from 66.9% under blur to 89.9% after restoration. Recognition improved, while further improvement in bounding-box localization remained an open problem.</p>
 </section>
 <section id="deployment" aria-labelledby="deployment-title">
 <h2 class="section-title" id="deployment-title">From model comparison to embedded demonstration</h2>
 <p>DETR achieved the highest AP in the comparison, but its computational and memory demands motivated a different choice for the embedded implementation. We selected YOLOv5 and deployed the system on an NVIDIA Jetson board.</p>
 <figure class="research-figure">
   <a href="assets/pothole/jetson-demo.jpeg" aria-label="View full-size figure: Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target."><img src="assets/pothole/jetson-demo.jpeg" width="1382" height="655" alt="Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target." loading="lazy" decoding="async"></a>
-  <figcaption>Embedded-system demonstration photographed in KSEF slide 13. This image shows a bench demonstration using a road-image target. Select the figure to view it at full size.</figcaption>
+  <figcaption>The detection program running on a road-image target during an embedded-system bench demonstration. Select the figure to view it at full size.</figcaption>
 </figure>
-<p>The presentation also outlines a mapping workflow: collect latitude and longitude when a pothole is detected, then visualize detections to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
+<p>The proposed mapping workflow associates pothole detections with latitude and longitude, then visualizes them to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
 </section>
-<p class="figure-note">Sources: the coauthored CJSJ submission and the supplied KSEF presentation. Figures are extracted from the presentation and retain their original content. Results are reported from the original research.</p>
+<p class="figure-note">Reported results are from the coauthored CJSJ submission linked above.</p>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">
