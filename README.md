@@ -41,7 +41,7 @@ Current Berkeley information and the downloadable résumé come from the more re
 1. Open the HTML file for the page you want to change and edit the content inside `<main>`.
 2. To add a project, copy an entire project `<article>` in `projects.html`. Give it a unique `id` if you want to link directly to it. Selected projects on the home page link to these IDs.
 3. Add public code or paper URLs when available; none are invented for projects without supplied links.
-4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home and About to avoid cached older copies. The web pages use May 2030 as the expected graduation date; the latest supplied PDF still lists May 2029 and needs a separate update.
+4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home and About to avoid cached older copies. The expected graduation date is May 2029, reflecting Jimmy’s confirmed three-year plan using high-school credits.
 5. Replace `headshot.png` or `outdoor.jpg` to change the photos. Keep the HTML image dimensions and descriptive `alt` text up to date if a replacement differs. Photos keep their original proportions and stack with the text on mobile.
 6. Change colors and typography in `styles.css`; they apply to every page.
 7. The header and footer are deliberately repeated in the HTML files to avoid a build system. If you change a navigation link, name, or footer, update every page. Each page marks its own navigation link with `aria-current="page"`.

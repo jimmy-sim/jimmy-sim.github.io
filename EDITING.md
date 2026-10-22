@@ -107,5 +107,5 @@ If a change is missing online, check **Actions** first, then refresh the browser
 
 ## Known content items
 
-- The web pages correctly use **May 2030** for expected graduation, but the current résumé PDF still says **May 2029**. Replace the PDF when ready.
+- Expected graduation is **May 2029**, reflecting a three-year plan using high-school credits. The website and latest résumé agree.
 - The recent résumé says **USACO Gold**; the older high-school résumé says **Platinum**. The site omits that distinction; confirm it before adding it back.
