@@ -33,7 +33,7 @@
 <p>Can an auxiliary age-prediction task help a neural network classify cardiovascular disease severity from a retinal image? That question motivated our multitask learning study, <cite>Age-guided Cardiovascular Disease Diagnosis from Retinal Images: A Multitask Deep Learning Framework</cite>, advised by Devon Marks.</p>
 <p>I worked on CNN-based classification and the use of YCbCr retinal features. This article explains the shared model, the experiments used to test it, and what the results show.</p>
 <p class="resource-links"><a href="assets/papers/retinal-cvd-jsr.pdf">Read paper (PDF)</a><a href="assets/papers/retinal-cvd-jsr.pdf" download>Download PDF</a></p>
-<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Motivation</a><a href="#architecture">Model</a><a href="#evaluation">Evaluation</a><a href="#results">Results</a><a href="#reflections">Reflections</a></nav>
+<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Motivation</a><a href="#architecture">Model</a><a href="#evaluation">Evaluation</a><a href="#results">Results</a></nav>
 <section id="motivation" aria-labelledby="motivation-title">
 <h2 class="section-title" id="motivation-title">Why retinal images?</h2>
 <p>Retinal imaging offers a non-invasive view of blood vessels. Our study explored these images as a source of information associated with coronary artery calcium, which is conventionally assessed with CT imaging.</p>
@@ -66,12 +66,7 @@
 <p>Adding age prediction increased accuracy from 79.94% to 81.88%, a gain of 1.94 percentage points. Changing the full model’s inputs from RGB to YCbCr added a smaller 0.19 percentage points, reaching 82.07%.</p>
 <p>These comparisons are useful because they ask different questions. The ablation tests the value of age supervision; the color-space experiment tests the input representation. The larger change here came from the auxiliary task.</p>
 </section>
-<section id="reflections" aria-labelledby="reflections-title">
-<h2 class="section-title" id="reflections-title">Reflections</h2>
-<p>This project gave me experience connecting a domain-motivated hypothesis to a model architecture and an ablation study. A high aggregate score alone does not explain why a model improves; changing one component at a time makes the result easier to interpret.</p>
-<p>The reported cross-validation results describe this study’s dataset. Questions for further work include performance across independent populations and imaging conditions, calibration, and errors in the smaller severity classes.</p>
 <p class="figure-note">Sources: the coauthored JSR paper and the supplied IGO presentation. Numerical tables follow the published paper; figures are extracted from the presentation. These are the original study’s reported results.</p>
-</section>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">

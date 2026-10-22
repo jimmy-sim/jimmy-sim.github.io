@@ -34,7 +34,7 @@
 <p>I worked on training and evaluating models in Python and deploying the system on an NVIDIA Jetson board. The coauthored paper is titled <cite>Enhancing Pothole Detection Robustness to Blurred Images and Real-Time Implementation on Embedded Boards</cite>.</p>
 <p class="resource-links"><a href="assets/papers/pothole-cjsj-submission.pdf">Read CJSJ submission (PDF)</a><a href="assets/papers/pothole-cjsj-submission.pdf" download>Download PDF</a></p>
 <p class="figure-note">2024–25 Columbia Junior Science Journal submission · Semifinalist.</p>
-<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Problem</a><a href="#pipeline">Pipeline</a><a href="#evaluation">Evaluation</a><a href="#deployment">Deployment</a><a href="#reflections">Reflections</a></nav>
+<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Problem</a><a href="#pipeline">Pipeline</a><a href="#evaluation">Evaluation</a><a href="#deployment">Deployment</a></nav>
 <section id="motivation" aria-labelledby="motivation-title">
 <h2 class="section-title" id="motivation-title">The gap between clear images and moving cameras</h2>
 <p>Motion blur removes edges and texture that help distinguish a pothole from the surrounding road. A system intended for vehicle-mounted cameras needs to handle that degradation, as well as detect and localize the damage.</p>
@@ -78,12 +78,7 @@
 </figure>
 <p>The presentation also outlines a mapping workflow: collect latitude and longitude when a pothole is detected, then visualize detections to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
 </section>
-<section id="reflections" aria-labelledby="reflections-title">
-<h2 class="section-title" id="reflections-title">What the project taught me</h2>
-<p>The strongest detector in a comparison is not automatically the best choice for deployment. This project connected model evaluation with hardware constraints and helped me separate image quality, recognition, localization, and runtime considerations.</p>
-<p>Further work identified in the presentation includes better localization and evaluation in rain and snow. Broader road conditions and additional sensors, such as accelerometers, are also directions discussed in the manuscript.</p>
 <p class="figure-note">Sources: the coauthored CJSJ submission and the supplied KSEF presentation. Figures are extracted from the presentation and retain their original content. Results are reported from the original research.</p>
-</section>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">
