@@ -131,3 +131,14 @@ dd { margin: 0; }
 .results-table th:first-child { text-align: left; }
 .results-table tbody th { font-weight: 400; }
 .results-table td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Long-form research articles: source figures, equations, and section navigation. */
+.article-contents { border-block: 1px solid var(--rule); padding-block: 0.9rem; margin-block: 1.8rem 2.5rem; font-size: 0.85rem; gap: 0.5rem 1.1rem; }
+.article-contents > span { color: var(--muted); }
+.research-figure { margin: 1.8rem 0; }
+.research-figure > a { display: block; }
+.research-figure img { display: block; width: 100%; height: auto; }
+.research-figure figcaption { color: var(--muted); font-size: 0.82rem; line-height: 1.65; margin-top: 0.75rem; }
+.compact-figure { max-width: 650px; margin-inline: auto; }
+.research-equation { text-align: center; font-family: Georgia, "Times New Roman", serif; font-size: 1.1rem; padding-block: 0.8rem; }
+.plot-comparison .research-figure { margin: 0; }

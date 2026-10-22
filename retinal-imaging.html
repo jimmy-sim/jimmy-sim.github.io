@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Retinal Imaging and Cardiovascular Disease — Jimmy Youngjae Sim</title>
   <meta name="description" content="Research note on age-guided cardiovascular severity classification from retinal images.">
-  <link rel="stylesheet" href="styles.css?v=2b8e0b02b2">
+  <link rel="stylesheet" href="styles.css?v=bcbb4826f8">
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -27,32 +27,51 @@
   </header>
   <main class="container research-note" id="main" tabindex="-1">
 
-    <p class="back-link"><a href="projects.html#retinal-imaging">Back to projects</a></p>
-    <h1 class="page-title">Age-guided Cardiovascular Disease Diagnosis from Retinal Images</h1>
-    <p class="note-meta">Coauthored research · Journal of Student Research, volume 13, issue 1 (2024)</p>
-    <p>I coauthored <cite>Age-guided Cardiovascular Disease Diagnosis from Retinal Images: A Multitask Deep Learning Framework</cite> with Ellen Ryu and Seunghyuk Lee, advised by Devon Marks. The study explores whether jointly learning age and cardiovascular disease severity can improve classification from retinal images.</p>
-    <p class="resource-links"><a href="assets/papers/retinal-cvd-jsr.pdf">Read paper (PDF)</a><a href="assets/papers/retinal-cvd-jsr.pdf" download>Download PDF</a></p>
-    <section aria-labelledby="approach-title">
-      <h2 class="section-title" id="approach-title">Approach</h2>
-      <p>The framework uses an ImageNet-pretrained ResNet-101 feature extractor with separate age-prediction and severity-classification heads. Training combines cross-entropy for four coronary artery calcium score categories with a weighted absolute-error loss for age.</p>
-      <p>The paper describes a dataset of 37,295 patients and five-fold cross-validation. It compares CNN baselines, removes the age-prediction head in an ablation study, and tests RGB, grayscale, and YCbCr inputs.</p>
-    </section>
-    <section aria-labelledby="results-title">
-      <h2 class="section-title" id="results-title">Reported results</h2>
-      <div class="table-scroll" role="region" aria-label="CVD classification results" tabindex="0">
-        <table class="results-table">
-          <caption>Accuracy values from Tables 2 and 3 of the paper.</caption>
-          <thead><tr><th scope="col">Configuration</th><th scope="col">Accuracy</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Without age-prediction head</th><td>0.7994 ± 0.0007</td></tr>
-            <tr><th scope="row">Age-guided model, RGB</th><td>0.8188 ± 0.0011</td></tr>
-            <tr><th scope="row">Age-guided model, YCbCr</th><td>0.8207 ± 0.0007</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>In the reported experiments, adding the age-prediction task improved classification accuracy, with a further small improvement from YCbCr inputs.</p>
-      <p class="figure-note">Source: Tables 2 and 3 of the published paper. The PDF contains the full methods, evaluation, and references.</p>
-    </section>
+<p class="back-link"><a href="projects.html#retinal-imaging">Back to projects</a></p>
+<h1 class="page-title">Learning Cardiovascular Risk Signals from Retinal Images</h1>
+<p class="note-meta">Ellen Ryu, Seunghyuk Lee, and Youngjae Sim · Research, 2023 · Published, 2024</p>
+<p>Can an auxiliary age-prediction task help a neural network classify cardiovascular disease severity from a retinal image? That question motivated our multitask learning study, <cite>Age-guided Cardiovascular Disease Diagnosis from Retinal Images: A Multitask Deep Learning Framework</cite>, advised by Devon Marks.</p>
+<p>I worked on CNN-based classification and the use of YCbCr retinal features. This article explains the shared model, the experiments used to test it, and what the results show.</p>
+<p class="resource-links"><a href="assets/papers/retinal-cvd-jsr.pdf">Read paper (PDF)</a><a href="assets/papers/retinal-cvd-jsr.pdf" download>Download PDF</a></p>
+<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Motivation</a><a href="#architecture">Model</a><a href="#evaluation">Evaluation</a><a href="#results">Results</a><a href="#reflections">Reflections</a></nav>
+<section id="motivation" aria-labelledby="motivation-title">
+<h2 class="section-title" id="motivation-title">Why retinal images?</h2>
+<p>Retinal imaging offers a non-invasive view of blood vessels. Our study explored these images as a source of information associated with coronary artery calcium, which is conventionally assessed with CT imaging.</p>
+<p>We formulated the problem as four-class classification using coronary artery calcium score (CACS) thresholds: 0, above 0 through 100, above 100 through 400, and above 400. These are severity labels derived from calcium scores; the task is not a prediction of future cardiac events.</p>
+<p>The central idea was to make the learned representation serve two related tasks. Instead of training only a severity classifier, we also asked the model to predict age from the same image features.</p>
+</section>
+<section id="architecture" aria-labelledby="architecture-title">
+<h2 class="section-title" id="architecture-title">A shared representation, two tasks</h2>
+<figure class="research-figure">
+  <a href="assets/cvd/architecture.jpeg" aria-label="View full-size figure: Retinal image passes through a CNN feature extractor, then branches into age prediction and CVD severity classification."><img src="assets/cvd/architecture.jpeg" width="1735" height="660" alt="Retinal image passes through a CNN feature extractor, then branches into age prediction and CVD severity classification." loading="lazy" decoding="async"></a>
+  <figcaption>Shared feature extractor and task-specific heads, from slide 6 of the research presentation. Select the figure to view it at full size.</figcaption>
+</figure>
+<p>An ImageNet-pretrained ResNet-101 extracts retinal features. Two separate, two-layer networks then predict age and the four severity categories. Sharing the backbone lets both objectives influence the same representation.</p>
+<p>The training objective combines cross-entropy for severity classification with L1 error for age:</p>
+<p class="research-equation" aria-label="Total loss equals classification cross-entropy plus alpha times age absolute error"><var>L</var><sub>total</sub> = <var>L</var><sub>CE</sub> + α <var>L</var><sub>age</sub></p>
+<p>The weight α controls the auxiliary task’s contribution. Keeping it below one reduces its influence relative to the primary classification objective. The paper reports training with stochastic gradient descent for 110 epochs, a learning rate of 0.0001, and a batch size of 512.</p>
+</section>
+<section id="evaluation" aria-labelledby="evaluation-title">
+<h2 class="section-title" id="evaluation-title">Designing the comparison</h2>
+<p>The paper describes retinal images from 37,295 patients, with an average age of 59.3 years. The four classes are imbalanced: approximately half the samples belong to the zero-calcium category. We used five-fold cross-validation and reported accuracy, precision, recall, and F1-score.</p>
+<p>Three comparisons separate the effects of architecture, auxiliary supervision, and image representation:</p>
+<ol class="method-list"><li><strong>Model baselines:</strong> compare the full approach with VGG19, MobileNetV2, HRNet-32, DenseNet-121, and ResNet-101.</li><li><strong>Age ablation:</strong> remove the age-prediction head while retaining the stated training protocol.</li><li><strong>Color inputs:</strong> compare RGB, grayscale, and YCbCr, which separates luminance from chrominance.</li></ol>
+</section>
+<section id="results" aria-labelledby="results-title">
+<h2 class="section-title" id="results-title">What changed with age guidance?</h2>
+<figure class="research-figure compact-figure">
+  <a href="assets/cvd/age-ablation.jpeg" aria-label="View full-size figure: Ablation chart compares the full age-guided model with the model without age prediction across accuracy, recall, precision, and F1-score."><img src="assets/cvd/age-ablation.jpeg" width="1659" height="985" alt="Ablation chart compares the full age-guided model with the model without age prediction across accuracy, recall, precision, and F1-score." loading="lazy" decoding="async"></a>
+  <figcaption>Original ablation chart from slide 9; its horizontal axis starts at 0.70. The table below gives the reported accuracy values. Select the figure to view it at full size.</figcaption>
+</figure><div class="table-scroll" role="region" aria-label="CVD ablation and color-input results" tabindex="0"><table class="results-table"><caption>Accuracy values from Tables 2 and 3 of the published paper.</caption><thead><tr><th scope="col">Configuration</th><th scope="col">Accuracy</th></tr></thead><tbody><tr><th scope="row">Without age-prediction head</th><td>0.7994 ± 0.0007</td></tr><tr><th scope="row">Age-guided model, RGB</th><td>0.8188 ± 0.0011</td></tr><tr><th scope="row">Age-guided model, YCbCr</th><td>0.8207 ± 0.0007</td></tr></tbody></table></div>
+<p>Adding age prediction increased accuracy from 79.94% to 81.88%, a gain of 1.94 percentage points. Changing the full model’s inputs from RGB to YCbCr added a smaller 0.19 percentage points, reaching 82.07%.</p>
+<p>These comparisons are useful because they ask different questions. The ablation tests the value of age supervision; the color-space experiment tests the input representation. The larger change here came from the auxiliary task.</p>
+</section>
+<section id="reflections" aria-labelledby="reflections-title">
+<h2 class="section-title" id="reflections-title">Reflections</h2>
+<p>This project gave me experience connecting a domain-motivated hypothesis to a model architecture and an ablation study. A high aggregate score alone does not explain why a model improves; changing one component at a time makes the result easier to interpret.</p>
+<p>The reported cross-validation results describe this study’s dataset. Questions for further work include performance across independent populations and imaging conditions, calibration, and errors in the smaller severity classes.</p>
+<p class="figure-note">Sources: the coauthored JSR paper and the supplied IGO presentation. Numerical tables follow the published paper; figures are extracted from the presentation. These are the original study’s reported results.</p>
+</section>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">

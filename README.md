@@ -12,7 +12,7 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `about.html` — biography, technical interests, activities, and résumé PDF link.
 - `education.html` — schools, degree plans, and coursework.
 - `projects.html` — research and technical projects.
-- `retinal-imaging.html` and `pothole-detection.html` — research notes with paper-reported results.
+- `retinal-imaging.html` and `pothole-detection.html` — detailed research articles with methods, presentation figures, and paper-reported results.
 - `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
 - `stock-prediction.html` — a short research note linked from Projects.
 - `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
@@ -71,3 +71,7 @@ The stock-prediction note is a curated summary inspired by the article format of
 The stock note also includes the supplied Colab code as a Python export and a notebook reconstructed from its three model sections. Executable logic is unchanged; only the generated Colab header was replaced with setup/provenance notes. Neither file contains executed outputs. The dataset and pinned dependency versions were not supplied; model training has not been revalidated in this website environment.
 
 The retinal-imaging note follows the supplied JSR paper’s exact title and coauthor list. The pothole note links the CJSJ semifinalist submission, clearly distinguished from publication. Both PDFs are preserved unchanged. Research-note tables transcribe reported results; no research experiments were rerun. The CVD PDF is the authoritative linked paper; the older résumé DOI was not verified against its title and is not used in its place.
+
+## Research presentation figures
+
+The CVD article uses architecture and age-ablation images extracted from slides 6 and 9 of `IGO Video PPT.pdf`. The pothole article uses the deblurring architecture from KSEF slide 6, a blurred/restored example from slide 12, and a bench-demonstration photograph from slide 13. Embedded image assets were extracted without generative editing; the full presentations are not published. CVD numerical tables follow the journal paper where presentation values differ. Main-page content stays concise; individual research articles provide technical detail.

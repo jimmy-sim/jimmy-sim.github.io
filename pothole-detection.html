@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pothole Detection Under Motion Blur — Jimmy Youngjae Sim</title>
   <meta name="description" content="Research note on image deblurring, pothole detection, and NVIDIA Jetson deployment.">
-  <link rel="stylesheet" href="styles.css?v=2b8e0b02b2">
+  <link rel="stylesheet" href="styles.css?v=bcbb4826f8">
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -27,35 +27,63 @@
   </header>
   <main class="container research-note" id="main" tabindex="-1">
 
-    <p class="back-link"><a href="projects.html#pothole-detection">Back to projects</a></p>
-    <h1 class="page-title">Pothole Detection Under Motion Blur</h1>
-    <p class="note-meta">Coauthored research · April–October 2024</p>
-    <p>I coauthored <cite>Enhancing Pothole Detection Robustness to Blurred Images and Real-Time Implementation on Embedded Boards</cite> with Taehee Kim. The project addresses a practical challenge: motion blur can make road damage harder to detect from a moving vehicle.</p>
-    <p class="resource-links"><a href="assets/papers/pothole-cjsj-submission.pdf">Read CJSJ submission (PDF)</a><a href="assets/papers/pothole-cjsj-submission.pdf" download>Download PDF</a></p>
-    <p class="figure-note">2024–25 Columbia Junior Science Journal submission · Semifinalist.</p>
-    <section aria-labelledby="approach-title">
-      <h2 class="section-title" id="approach-title">Approach</h2>
-      <p>The system pairs an image-deblurring network with a pothole detector. The deblurring stage uses pixel-level L1 loss and a VGG19-based perceptual loss. Evaluation compares five detector architectures on clear, blurred, and deblurred images.</p>
-      <p>The paper combines Roboflow and Google Bangkit 2021 pothole datasets with an 80/20 training/test split. For embedded deployment, the team selected YOLOv5 for its practical computational requirements and implemented the system on an NVIDIA Jetson board.</p>
-    </section>
-    <section aria-labelledby="results-title">
-      <h2 class="section-title" id="results-title">Reported results</h2>
-      <div class="table-scroll" role="region" aria-label="Pothole detector average precision results" tabindex="0">
-        <table class="results-table">
-          <caption>Average precision (AP) scores as reported in Table 1.</caption>
-          <thead><tr><th scope="col">Detector</th><th scope="col">Clear</th><th scope="col">Blurred</th><th scope="col">Deblurred</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">EfficientDet</th><td>65.4</td><td>48.1</td><td>54.4</td></tr>
-            <tr><th scope="row">RetinaNet</th><td>66.7</td><td>49.5</td><td>54.8</td></tr>
-            <tr><th scope="row">FocalNet</th><td>70.1</td><td>53.7</td><td>57.9</td></tr>
-            <tr><th scope="row">YOLOv5</th><td>74.7</td><td>54.7</td><td>60.1</td></tr>
-            <tr><th scope="row">DETR</th><td>77.5</td><td>57.9</td><td>65.2</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Deblurring improved AP over the blurred-image condition for every detector in this comparison. DETR had the highest AP, while YOLOv5 was selected for the embedded implementation.</p>
-      <p class="figure-note">Source: Table 1 of the supplied submission. The PDF includes the architecture diagrams, confusion matrices, and references.</p>
-    </section>
+<p class="back-link"><a href="projects.html#pothole-detection">Back to projects</a></p>
+<h1 class="page-title">Making Pothole Detection More Robust to Motion Blur</h1>
+<p class="note-meta">Youngjae Sim and Taehee Kim · April–October 2024</p>
+<p>A detector that works on a clear road photograph can struggle when a camera is moving. In this project, we paired an image-deblurring network with a pothole detector and investigated how that combination performed under blur and on embedded hardware.</p>
+<p>I worked on training and evaluating models in Python and deploying the system on an NVIDIA Jetson board. The coauthored paper is titled <cite>Enhancing Pothole Detection Robustness to Blurred Images and Real-Time Implementation on Embedded Boards</cite>.</p>
+<p class="resource-links"><a href="assets/papers/pothole-cjsj-submission.pdf">Read CJSJ submission (PDF)</a><a href="assets/papers/pothole-cjsj-submission.pdf" download>Download PDF</a></p>
+<p class="figure-note">2024–25 Columbia Junior Science Journal submission · Semifinalist.</p>
+<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Problem</a><a href="#pipeline">Pipeline</a><a href="#evaluation">Evaluation</a><a href="#deployment">Deployment</a><a href="#reflections">Reflections</a></nav>
+<section id="motivation" aria-labelledby="motivation-title">
+<h2 class="section-title" id="motivation-title">The gap between clear images and moving cameras</h2>
+<p>Motion blur removes edges and texture that help distinguish a pothole from the surrounding road. A system intended for vehicle-mounted cameras needs to handle that degradation, as well as detect and localize the damage.</p>
+<p>We investigated an explicit restoration stage: recover useful visual structure before passing the image to an object detector. The goal was to measure whether deblurring improved the downstream task, not just the appearance of an image.</p>
+</section>
+<section id="pipeline" aria-labelledby="pipeline-title">
+<h2 class="section-title" id="pipeline-title">Restoration before detection</h2>
+<figure class="research-figure">
+  <a href="assets/pothole/deblurring-network.jpeg" aria-label="View full-size figure: An encoder-decoder network transforms a blurred road image into a deblurred image."><img src="assets/pothole/deblurring-network.jpeg" width="1369" height="355" alt="An encoder-decoder network transforms a blurred road image into a deblurred image." loading="lazy" decoding="async"></a>
+  <figcaption>Deblurring stage from slide 6 of the KSEF presentation. Select the figure to view it at full size.</figcaption>
+</figure>
+<p>The first stage is an encoder-decoder restoration network. Its pixel-level L1 loss encourages agreement with the reference image, while a perceptual loss compares VGG19 feature activations to retain higher-level visual structure.</p>
+<div class="plot-comparison">
+<figure class="research-figure">
+  <a href="assets/pothole/blurred-road.jpeg" aria-label="View full-size figure: Blurred road image with indistinct edges around several potholes."><img src="assets/pothole/blurred-road.jpeg" width="449" height="300" alt="Blurred road image with indistinct edges around several potholes." loading="lazy" decoding="async"></a>
+  <figcaption>Blurred input, from slide 12. Select the figure to view it at full size.</figcaption>
+</figure><figure class="research-figure">
+  <a href="assets/pothole/deblurred-road.jpeg" aria-label="View full-size figure: The corresponding restored road image, with more distinct pothole boundaries."><img src="assets/pothole/deblurred-road.jpeg" width="449" height="300" alt="The corresponding restored road image, with more distinct pothole boundaries." loading="lazy" decoding="async"></a>
+  <figcaption>Deblurred output, from slide 12. Select the figure to view it at full size.</figcaption>
+</figure>
+</div>
+<p>The second stage detects potholes and returns bounding boxes. The presentation breaks its objective into localization, confidence, and classification terms:</p>
+<p class="research-equation" aria-label="Detection objective comprises localization, confidence, and classification losses"><var>L</var><sub>detector</sub>: localization + confidence + classification</p>
+<ul class="method-list"><li><strong>Localization:</strong> penalize errors in box position and dimensions.</li><li><strong>Confidence:</strong> distinguish object-containing regions from background.</li><li><strong>Classification:</strong> identify potholes in object-containing regions.</li></ul>
+<p>This distinction matters: recognizing that a pothole exists does not guarantee that its bounding box is accurate.</p>
+</section>
+<section id="evaluation" aria-labelledby="evaluation-title">
+<h2 class="section-title" id="evaluation-title">Evaluating robustness to blur</h2>
+<p>The study used Roboflow pothole images and the Google Bangkit 2021 dataset, covering both longer-distance and closer road views. The manuscript describes combining the datasets with an 80/20 training/test split; the presentation also lists the component datasets’ original sizes.</p>
+<p>We compared EfficientDet, RetinaNet, FocalNet, YOLOv5, and DETR under three conditions: clear images, blurred images, and blurred images processed by the proposed restoration network.</p>
+<div class="table-scroll" role="region" aria-label="Pothole detector average precision results" tabindex="0"><table class="results-table"><caption>AP scores from Table 1 of the CJSJ submission; also shown in KSEF slide 10.</caption><thead><tr><th scope="col">Detector</th><th scope="col">Clear</th><th scope="col">Blurred</th><th scope="col">Deblurred</th></tr></thead><tbody><tr><th scope="row">EfficientDet</th><td>65.4</td><td>48.1</td><td>54.4</td></tr><tr><th scope="row">RetinaNet</th><td>66.7</td><td>49.5</td><td>54.8</td></tr><tr><th scope="row">FocalNet</th><td>70.1</td><td>53.7</td><td>57.9</td></tr><tr><th scope="row">YOLOv5</th><td>74.7</td><td>54.7</td><td>60.1</td></tr><tr><th scope="row">DETR</th><td>77.5</td><td>57.9</td><td>65.2</td></tr></tbody></table></div>
+<p>Deblurring improved AP for every architecture relative to the blurred condition. For YOLOv5, AP rose from 54.7 to 60.1: a gain of 5.4 AP points, or approximately 9.9% relative improvement.</p>
+<p>The presentation separately reports a pothole true-positive rate of 66.9% under blur and 89.9% after restoration. This recognition improvement should be read alongside AP: the presentation identifies further improvement in localization as an open problem.</p>
+</section>
+<section id="deployment" aria-labelledby="deployment-title">
+<h2 class="section-title" id="deployment-title">From model comparison to embedded demonstration</h2>
+<p>DETR achieved the highest AP in the comparison, but its computational and memory demands motivated a different choice for the embedded implementation. We selected YOLOv5 and deployed the system on an NVIDIA Jetson board.</p>
+<figure class="research-figure">
+  <a href="assets/pothole/jetson-demo.jpeg" aria-label="View full-size figure: Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target."><img src="assets/pothole/jetson-demo.jpeg" width="1382" height="655" alt="Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target." loading="lazy" decoding="async"></a>
+  <figcaption>Embedded-system demonstration photographed in KSEF slide 13. This image shows a bench demonstration using a road-image target. Select the figure to view it at full size.</figcaption>
+</figure>
+<p>The presentation also outlines a mapping workflow: collect latitude and longitude when a pothole is detected, then visualize detections to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
+</section>
+<section id="reflections" aria-labelledby="reflections-title">
+<h2 class="section-title" id="reflections-title">What the project taught me</h2>
+<p>The strongest detector in a comparison is not automatically the best choice for deployment. This project connected model evaluation with hardware constraints and helped me separate image quality, recognition, localization, and runtime considerations.</p>
+<p>Further work identified in the presentation includes better localization and evaluation in rain and snow. Broader road conditions and additional sensors, such as accelerometers, are also directions discussed in the manuscript.</p>
+<p class="figure-note">Sources: the coauthored CJSJ submission and the supplied KSEF presentation. Figures are extracted from the presentation and retain their original content. Results are reported from the original research.</p>
+</section>
   </main>
   <footer class="site-footer">
     <div class="container footer-inner">
