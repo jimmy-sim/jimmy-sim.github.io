@@ -16,7 +16,7 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
 - `stock-prediction.html` — a short research note linked from Projects.
 - `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
-- `resume.pdf` — the original uploaded résumé.
+- `resume.pdf` — the latest uploaded résumé.
 - `headshot.png` — portrait on the home page.
 - `outdoor.jpg` — personal photo on the About page.
 - `styles.css` — shared layout, typography, mobile, and print styles.
@@ -41,7 +41,7 @@ Current Berkeley information and the downloadable résumé come from the more re
 1. Open the HTML file for the page you want to change and edit the content inside `<main>`.
 2. To add a project, copy an entire project `<article>` in `projects.html`. Give it a unique `id` if you want to link directly to it. Selected projects on the home page link to these IDs.
 3. Add public code or paper URLs when available; none are invented for projects without supplied links.
-4. Replace `resume.pdf` to update the downloadable document. The web pages use May 2030 as the expected graduation date; the original PDF still lists May 2029 and needs a separate update.
+4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home and About to avoid cached older copies. The web pages use May 2030 as the expected graduation date; the latest supplied PDF still lists May 2029 and needs a separate update.
 5. Replace `headshot.png` or `outdoor.jpg` to change the photos. Keep the HTML image dimensions and descriptive `alt` text up to date if a replacement differs. Photos keep their original proportions and stack with the text on mobile.
 6. Change colors and typography in `styles.css`; they apply to every page.
 7. The header and footer are deliberately repeated in the HTML files to avoid a build system. If you change a navigation link, name, or footer, update every page. Each page marks its own navigation link with `aria-current="page"`.
