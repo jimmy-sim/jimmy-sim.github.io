@@ -44,16 +44,16 @@
 <h2 class="section-title" id="pipeline-title">Restoration before detection</h2>
 <figure class="research-figure">
   <a href="assets/pothole/deblurring-network.jpeg" aria-label="View full-size figure: An encoder-decoder network transforms a blurred road image into a deblurred image."><img src="assets/pothole/deblurring-network.jpeg" width="1369" height="355" alt="An encoder-decoder network transforms a blurred road image into a deblurred image." loading="lazy" decoding="async"></a>
-  <figcaption>An encoder-decoder network restores a blurred road image before detection. Select the figure to view it at full size.</figcaption>
+  <figcaption>An encoder-decoder network restores a blurred road image before detection.</figcaption>
 </figure>
 <p>The first stage is an encoder-decoder restoration network. Its pixel-level L1 loss encourages agreement with the reference image, while a perceptual loss compares VGG19 feature activations to retain higher-level visual structure.</p>
 <div class="plot-comparison">
 <figure class="research-figure">
   <a href="assets/pothole/blurred-road.jpeg" aria-label="View full-size figure: Blurred road image with indistinct edges around several potholes."><img src="assets/pothole/blurred-road.jpeg" width="449" height="300" alt="Blurred road image with indistinct edges around several potholes." loading="lazy" decoding="async"></a>
-  <figcaption>Blurred road image before restoration. Select the figure to view it at full size.</figcaption>
+  <figcaption>Blurred road image before restoration.</figcaption>
 </figure><figure class="research-figure">
   <a href="assets/pothole/deblurred-road.jpeg" aria-label="View full-size figure: The corresponding restored road image, with more distinct pothole boundaries."><img src="assets/pothole/deblurred-road.jpeg" width="449" height="300" alt="The corresponding restored road image, with more distinct pothole boundaries." loading="lazy" decoding="async"></a>
-  <figcaption>Restored image with more distinct pothole boundaries. Select the figure to view it at full size.</figcaption>
+  <figcaption>Restored image with more distinct pothole boundaries.</figcaption>
 </figure>
 </div>
 <p>The second stage detects potholes and returns bounding boxes. Its objective includes localization, confidence, and classification terms:</p>
@@ -74,7 +74,7 @@
 <p>DETR achieved the highest AP in the comparison, but its computational and memory demands motivated a different choice for the embedded implementation. We selected YOLOv5 and deployed the system on an NVIDIA Jetson board.</p>
 <figure class="research-figure">
   <a href="assets/pothole/jetson-demo.jpeg" aria-label="View full-size figure: Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target."><img src="assets/pothole/jetson-demo.jpeg" width="1382" height="655" alt="Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target." loading="lazy" decoding="async"></a>
-  <figcaption>The detection program running on a road-image target during an embedded-system bench demonstration. Select the figure to view it at full size.</figcaption>
+  <figcaption>The detection program running on a road-image target during an embedded-system bench demonstration.</figcaption>
 </figure>
 <p>The proposed mapping workflow associates pothole detections with latitude and longitude, then visualizes them to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
 </section>
