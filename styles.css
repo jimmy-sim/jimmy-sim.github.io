@@ -43,9 +43,8 @@ main.container { flex: 1; padding-block: 2.5rem 4rem; }
 .page-title, .introduction h1 { text-align: center; margin: 0 0 2rem; }
 .introduction { margin: 0; }
 /* Keep photos proportional and aligned with the biography text. */
-.profile-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: start; gap: 2rem; }
-.about-introduction { display: grid; grid-template-columns: minmax(0, 1fr) 230px; align-items: start; gap: 2rem; }
-.profile-photo, .outdoor-photo { display: block; width: 100%; height: auto; border-radius: 3px; }
+.profile-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); align-items: start; gap: 2rem; }
+.profile-photo { display: block; width: 100%; height: auto; border-radius: 3px; }
 .profile-copy p:last-child { margin-bottom: 0; }
 section + section { margin-top: 2.5rem; }
 .section-title { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 2.5rem 0 1.5rem; text-align: center; }
@@ -86,9 +85,8 @@ dd { margin: 0; }
   main.container { padding-block: 2rem 3rem; }
   .page-title, .introduction h1 { font-size: 1.6rem; margin-bottom: 1.5rem; }
   .overview > div { grid-template-columns: 1fr; gap: 0.3rem; }
-  .profile-layout, .about-introduction { grid-template-columns: 1fr; gap: 1.5rem; }
-  .profile-photo { width: 180px; margin-inline: auto; }
-  .outdoor-photo { width: min(100%, 280px); margin-inline: auto; }
+  .profile-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+  .profile-photo { width: min(100%, 220px); margin-inline: auto; }
   .footer-inner { flex-direction: column; gap: 0.6rem; text-align: center; }
 }
 @media print {

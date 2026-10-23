@@ -42,16 +42,16 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Change | File |
 | --- | --- |
 | Home introduction and selected work | `index.html` |
-| Biography, activities, honors | `about.html` |
+| Biography, technical interests, personal background | `index.html` |
 | Schools, coursework, graduation date | `education.html` |
 | Project descriptions and paper/code links | `projects.html` |
 | CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
 | Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
-| Résumé link beside your biography | `about.html` |
+| Résumé link beside your biography | `index.html` |
 | Downloadable résumé | Replace `resume.pdf` |
 | Email and profile links | Footer links in all HTML pages |
-| Headshot | Replace `headshot.png`; update its width, height, and alt text in `index.html` |
-| Outdoor photo | Replace `outdoor.jpg`; update its dimensions and alt text in `about.html` |
+| Original headshot | `headshot.png` is retained but currently unused |
+| Home-page portrait | Replace `outdoor.jpg`; update its dimensions and alt text in `index.html` |
 | Fonts, spacing, colors, mobile layout | `styles.css` |
 | Automatic copyright year | `script.js` |
 
@@ -67,7 +67,7 @@ The HTML pages each include their own header and footer. Changes to navigation, 
 
 **Write special characters:** write `&amp;` for an ampersand in HTML text and `&lt;` for a literal less-than sign. Keep attribute values inside quotes.
 
-**Replace a photo or PDF:** keep the existing filename so links continue working. For a new résumé, update the `?v=` value on its links in Home and About so visitors receive the latest PDF. Use a JPEG or PNG for photos and check that the résumé is a real PDF. Update the HTML dimensions to match a new image’s pixel dimensions; CSS displays it at a smaller size without distortion. Do not put private information in public files.
+**Replace a photo or PDF:** keep the existing filename so links continue working. For a new résumé, update the `?v=` value on its links in Home so visitors receive the latest PDF. Use a JPEG or PNG for photos and check that the résumé is a real PDF. Update the HTML dimensions to match a new image’s pixel dimensions; CSS displays it at a smaller size without distortion. Do not put private information in public files.
 
 ## Check and publish from your Mac
 
@@ -77,7 +77,7 @@ The HTML pages each include their own header and footer. Changes to navigation, 
 4. Run the helper with a description and **only the files you edited**:
 
    ```sh
-   bash scripts/publish.sh "Update my biography" about.html
+   bash scripts/publish.sh "Update my biography" index.html
    ```
 
    Or, for a résumé update:
@@ -92,7 +92,7 @@ You can also publish manually:
 
 ```sh
 git diff --check
-git add about.html
+git add index.html
 git commit -m "Update my biography"
 git push origin HEAD:main
 ```

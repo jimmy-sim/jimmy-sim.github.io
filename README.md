@@ -8,8 +8,7 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 
 ## Pages and files
 
-- `index.html` — home, a brief introduction, and selected work.
-- `about.html` — biography, technical interests, activities, and résumé PDF link.
+- `index.html` — biography, outdoor portrait, résumé link, selected work, and personal background.
 - `education.html` — schools, degree plans, and coursework.
 - `projects.html` — research and technical projects.
 - `retinal-imaging.html` and `pothole-detection.html` — detailed research articles with methods, presentation figures, and paper-reported results.
@@ -17,8 +16,8 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `stock-prediction.html` — a short research note linked from Projects.
 - `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
 - `resume.pdf` — the latest uploaded résumé.
-- `headshot.png` — portrait on the home page.
-- `outdoor.jpg` — personal photo on the About page.
+- `headshot.png` — retained original portrait, currently unused.
+- `outdoor.jpg` — portrait on the home page.
 - `styles.css` — shared layout, typography, mobile, and print styles.
 - `script.js` — optional automatic copyright year. All navigation works without JavaScript.
 
@@ -41,8 +40,8 @@ Current Berkeley information and the downloadable résumé come from the more re
 1. Open the HTML file for the page you want to change and edit the content inside `<main>`.
 2. To add a project, copy an entire project `<article>` in `projects.html`. Give it a unique `id` if you want to link directly to it. Selected projects on the home page link to these IDs.
 3. Add public code or paper URLs when available; none are invented for projects without supplied links.
-4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home and About to avoid cached older copies. The expected graduation date is May 2029, reflecting Jimmy’s confirmed three-year plan using high-school credits.
-5. Replace `headshot.png` or `outdoor.jpg` to change the photos. Keep the HTML image dimensions and descriptive `alt` text up to date if a replacement differs. Photos keep their original proportions and stack with the text on mobile.
+4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home to avoid cached older copies. The expected graduation date is May 2029, reflecting Jimmy’s confirmed three-year plan using high-school credits.
+5. Replace `outdoor.jpg` to change the home-page portrait. Update the image dimensions and descriptive `alt` text in `index.html` if the replacement differs. The photo keeps its natural proportions and stacks above the text on mobile.
 6. Change colors and typography in `styles.css`; they apply to every page.
 7. The header and footer are deliberately repeated in the HTML files to avoid a build system. If you change a navigation link, name, or footer, update every page. Each page marks its own navigation link with `aria-current="page"`.
 
