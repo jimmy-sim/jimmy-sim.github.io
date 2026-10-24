@@ -6,7 +6,7 @@
 
 | Slide PDF pages | Transcript location | Topic and use in the article |
 | --- | --- | --- |
-| 1 | Page 1, introductions | Project title, team, UCSC SIP 2024, mentor Priyanka Mondal. The title image spells the coauthor’s name Allison Shi; the transcript uses Alison. Use the title image’s spelling. |
+| 1 | Page 1, introductions | Project title, team, UCSC SIP 2024, mentor Priyanka Mondal. Jimmy clarified that Mondal was then a UCSC PhD candidate advised by Prof. Owen Arden and Prof. Ioannis Demertzis. The title image spells the coauthor’s name Allison Shi; the transcript uses Alison. Use the title image’s spelling. |
 | 2–10 | Page 1, Alison: Distributed Systems and Fault Tolerance | Introductory networks, cat-picture analogy, unavailability versus incorrect responses. Article explains the distinction without repeating the analogy. |
 | 11–20 | Pages 1–2, replication and disagreement | Single point of failure, added replicas, conflicting responses, majority assumption. Multiple animation frames become one concise motivation. |
 | 21–24 | Page 2, Amy: Choreographic Programming and HasChor | High-level abstractions; separate sends/receives versus global choreography and endpoint projection. Page 24 supplies the communication diagram. |
