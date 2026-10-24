@@ -14,6 +14,8 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `retinal-imaging.html` and `pothole-detection.html` — detailed research articles with methods, presentation figures, and paper-reported results.
 - `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
 - `presolve.html` — contribution overview and an illustrative presolve/postsolve example.
+- `distributed-systems.html` — 2024 SIP research article: Haskell choreographies, quorum implementation, and recorded demonstration results.
+- `assets/sip/` — selected original SIP diagrams and terminal captures; source mapping in its README.
 - `stock-prediction.html` — a short research note linked from Projects.
 - `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
 - `resume.pdf` — the latest uploaded résumé.
@@ -66,7 +68,7 @@ There is no compilation step or committed test suite. The site uses no external 
 
 ## Project notes
 
-The stock-prediction note is a curated summary inspired by the article format of the reference site. Its two plots are original image assets extracted unchanged from the supplied Keynote, not regenerated results. The Keynote and converted slide deck are not published. The note distinguishes visual observations from reproducible benchmark claims. Keep new notes concise and link them from their project entries.
+The stock-prediction note is a curated summary inspired by the article format of the reference site. Its two plots are original image assets extracted unchanged from the supplied Keynote, not regenerated results. The Keynote and converted slide deck are not published. The note distinguishes visual observations from reproducible benchmark claims. Keep project-index entries concise and link to detailed articles with “Read more.”
 
 The stock note also includes the supplied Colab code as a Python export and a notebook reconstructed from its three model sections. Executable logic is unchanged; only the generated Colab header was replaced with setup/provenance notes. Neither file contains executed outputs. The dataset and pinned dependency versions were not supplied; model training has not been revalidated in this website environment.
 
@@ -77,3 +79,5 @@ The retinal-imaging note follows the supplied JSR paper’s exact title and coau
 The CVD article uses architecture and age-ablation images extracted from slides 6 and 9 of `IGO Video PPT.pdf`. The pothole article uses the deblurring architecture from KSEF slide 6, a blurred/restored example from slide 12, and a bench-demonstration photograph from slide 13. Embedded image assets were extracted without generative editing; the full presentations are not published. CVD numerical tables follow the journal paper where presentation values differ. Main-page content stays concise; individual research articles provide technical detail.
 
 The presolve article links Matteo Santamaria’s public repository and distinguishes Jimmy’s described contribution scope from the library’s overall capabilities. Its algebraic example is explanatory, not benchmark output or a claim of authorship of specific upstream rules.
+
+The SIP article matches the supplied 78-page `SIP Presentation.pdf` animation export with the four-page `SIP Presentation Video Transcript - Polished.pdf`. Selected diagram and terminal regions are rendered from the original PDF, with no regenerated results. The source files are not published in full. See `assets/sip/README.md` for the topic-to-page mapping, exact figure crops, and code provenance. The article credits the team and mentor, distinguishes HasChor/FlameChor from the internship work, and limits its claims to the demonstrated quorum behavior. Code excerpts are transcribed from the original images; no executable project archive or new Haskell run is implied.

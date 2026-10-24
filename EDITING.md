@@ -47,6 +47,7 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Project descriptions and paper/code links | `projects.html` |
 | CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
 | Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
+| SIP Haskell research article, figures, and source mapping | `distributed-systems.html` and `assets/sip/` |
 | Résumé link beside your biography | `index.html` |
 | Downloadable résumé | Replace `resume.pdf` |
 | Email and profile links | Footer links in all HTML pages |

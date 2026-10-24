@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Distributed Applications in Haskell — Jimmy Youngjae Sim</title>
+  <meta name="description" content="My 2024 UC Santa Cruz SIP research: Haskell choreographies, pairwise comparison and selection, and a demonstrated two-out-of-three majority quorum.">
+  <link rel="stylesheet" href="styles.css?v=dca40ddfc5">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- Shared header: keep the navigation consistent across all HTML pages. -->
+  <header class="site-header">
+    <div class="container masthead">
+      <div class="site-info">
+        <a class="site-name" href="index.html">Jimmy Youngjae Sim</a>
+        <p class="site-description">Applied Mathematics · UC Berkeley</p>
+      </div>
+      <nav aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="education.html">Education</a>
+          <a href="projects.html" aria-current="true">Projects</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container research-note" id="main" tabindex="-1">
+
+
+    <p class="back-link"><a href="projects.html#distributed-systems">Back to projects</a></p>
+    <h1 class="page-title">Building Secure Distributed Applications in Haskell</h1>
+    <p class="note-meta">UC Santa Cruz Science Internship Program · June–August 2024</p>
+    <p>How can a distributed application keep working when its replicas fail or return conflicting values? During the 2024 Science Internship Program (SIP) at UC Santa Cruz, I worked with Allison Shi and Amy Vitek under the mentorship of Priyanka Mondal to explore this question in Haskell.</p>
+    <p>We used <strong>choreographic programming</strong> to describe communication across participants in one program, then implemented a two-out-of-three majority quorum using two abstractions: <code>compare</code> and <code>select</code>. Our bank-balance example brought the ideas together in a program running across four terminals.</p>
+    <p>My work included the Haskell API and quorum implementation. I explained the comparison and selection logic, its integration into the bank example, and the three execution cases in our final research talk.</p>
+    <nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#communication">Communication</a><a href="#bookseller">Buyer–seller example</a><a href="#quorum">Quorum logic</a><a href="#implementation">Implementation</a><a href="#results">Results</a></nav>
+
+    <section id="communication" aria-labelledby="communication-title">
+      <h2 class="section-title" id="communication-title">Coordinating communication</h2>
+      <p>Replication addresses one weakness of a single-server system: if that server stops responding, the service becomes unavailable. Additional replicas can keep a service available, but they introduce a different question. When two replicas return different answers, which response should the application accept?</p>
+      <p>Before implementing a decision rule, we needed a way to express the participants’ communication reliably. In conventional message passing, each participant has its own program. A send at one endpoint must match a receive at another, including when execution takes different branches. A missing or mismatched operation can leave a participant waiting indefinitely.</p>
+      <p>A <strong>choreography</strong> describes the interaction globally. Endpoint projection derives the behavior of each participant from that shared description: one communication produces both a send and its corresponding receive. We used HasChor, a library that embeds functional choreographic programming in Haskell.</p>
+      <figure class="research-figure compact-figure">
+  <a href="assets/sip/choreography.png"><img src="assets/sip/choreography.png" width="1350" height="909" alt="A single choreography with three communications projects into matching send and receive operations for participants p and q." loading="lazy"></a>
+  <figcaption>One global communication sequence determines the matching operations at both endpoints. This helps prevent deadlocks caused by mismatched communication.</figcaption>
+</figure>
+      <p>The scope of that guarantee matters. Coordinating sends and receives does not, by itself, make a failed computer respond or make an incorrect value trustworthy. Communication structure and fault-handling logic address different parts of the problem.</p>
+    </section>
+
+    <section id="bookseller" aria-labelledby="bookseller-title">
+      <h2 class="section-title" id="bookseller-title">From two programs to one choreography</h2>
+      <p>We first implemented a buyer–seller interaction in two forms: separate concurrent programs and a HasChor choreography. The buyer sends a book title, the seller computes its price, and the buyer checks that price against a budget. An accepted purchase leads to a delivery date; a declined purchase ends the interaction.</p>
+      <p>In the choreography, the initial exchange and budget check are expressed as follows:</p>
+      <pre class="code-sample" tabindex="0" aria-label="Haskell excerpt for the buyer and seller exchange"><code>title&#x27; &lt;- (buyer, title) ~&gt; seller
+price &lt;- seller `locally` \un -&gt; return (priceOf (un title&#x27;))
+price&#x27; &lt;- (seller, price) ~&gt; buyer
+decision &lt;- buyer `locally` \un -&gt; return (un price&#x27; &lt;= budget)</code></pre>
+      <ul class="method-list">
+        <li><strong>Located values:</strong> <code>title</code> begins at the buyer. Sending it creates <code>title'</code> at the seller. Writing a global program does not make every value available everywhere.</li>
+        <li><strong>Local computation:</strong> <code>locally</code> identifies where an operation runs. Its <code>un</code> argument accesses values available at that location.</li>
+        <li><strong>Communication:</strong> <code>~&gt;</code> sends a located value between participants, expressing both ends of the exchange in one operation.</li>
+        <li><strong>Coordinated branching:</strong> <code>cond</code> communicates the buyer’s decision so the participants follow the corresponding purchase or decline branch.</li>
+      </ul>
+      <p>The full choreography returns an optional delivery date located at the buyer, represented by <code>Maybe Day @ "buyer"</code>. We demonstrated the buyer and seller in two terminals on the same machine, with logging to expose the messages and decisions.</p>
+    </section>
+
+    <section id="quorum" aria-labelledby="quorum-title">
+      <h2 class="section-title" id="quorum-title">Combining agreement and availability</h2>
+      <p>The quorum example separates two operations that serve different purposes:</p>
+      <ul class="method-list">
+        <li><strong><code>compare</code> checks agreement.</strong> When two responses agree, it produces their shared value. When they differ, it produces a failure value.</li>
+        <li><strong><code>select</code> obtains a successful result.</strong> It selects a result that is neither a failure value nor a timeout. This allows a successful comparison to supply the answer when another comparison fails.</li>
+      </ul>
+      <p><code>select</code> does not establish agreement on its own. We first compare every pair of replica responses—A with B, B with C, and A with C—then combine those comparison results using <code>select</code>. Any successful comparison represents two replicas agreeing on a value.</p>
+      <figure class="research-figure">
+  <a href="assets/sip/majority-quorum.png"><img src="assets/sip/majority-quorum.png" width="2019" height="660" alt="Three replicas A, B, and C are compared in pairs; nested select operations combine the AB, BC, and AC comparison results." loading="lazy"></a>
+  <figcaption>The two-out-of-three quorum compares all three pairs of responses and selects a successful agreement. Comparing pairs supplies the agreement check; selection supplies a usable result.</figcaption>
+</figure>
+      <p>For example, responses of $1,500, $1,000, and $1,000 contain one agreeing pair. The quorum accepts $1,000. This is correct under the example’s assumption that at most one replica returns an incorrect value and the other two agree on the correct balance.</p>
+    </section>
+
+    <section id="implementation" aria-labelledby="implementation-title">
+      <h2 class="section-title" id="implementation-title">Putting the quorum into Haskell</h2>
+      <p>Our application has four participants: <code>user</code>, <code>bank1</code>, <code>bank2</code>, and <code>bank3</code>, identified by Haskell proxies. Each bank reads a balance locally and communicates it to the user. The received values, <code>b1</code>, <code>b2</code>, and <code>b3</code>, are then available for the user’s local quorum computation.</p>
+      <pre class="code-sample" tabindex="0" aria-label="Haskell excerpt combining pairwise comparisons and selection"><code>comp1 &lt;- user `locally` \un -&gt; compare (un b1) (un b2)
+comp2 &lt;- user `locally` \un -&gt; compare (un b2) (un b3)
+comp3 &lt;- user `locally` \un -&gt; compare (un b1) (un b3)
+
+sel1 &lt;- user `locally` \un -&gt; select (un comp1) (un comp2)
+sel2 &lt;- user `locally` \un -&gt; select (un comp3) (un sel1)
+
+user `locally` \un -&gt; do
+  finalResult &lt;- wait (un sel2)
+  putStrLn $ &quot;Balance: &quot; ++ finalResult</code></pre>
+      <p>The three comparisons cover all pairs. The first selection combines the A–B and B–C results; the second combines that result with A–C. Finally, the user waits for the selected result and prints the balance. These are implementation excerpts, with surrounding declarations and setup omitted.</p>
+      <p>Haskell’s <code>do</code> notation lets the choreography compose communication and local computations in sequence. The located values keep the data flow explicit: balance retrieval happens at each bank, while the quorum decision happens at the user.</p>
+    </section>
+
+    <section id="results" aria-labelledby="results-title">
+      <h2 class="section-title" id="results-title">Three execution cases</h2>
+      <p>We ran one terminal for each bank and one for the user. The three cases exercise unanimous agreement, agreement despite one conflicting response, and complete disagreement.</p>
+      <div class="table-scroll" role="region" aria-label="Recorded majority quorum results" tabindex="0">
+        <table class="results-table">
+          <caption>Replica inputs and user output in the recorded demonstration.</caption>
+          <thead><tr><th scope="col">Case</th><th scope="col">Bank 1</th><th scope="col">Bank 2</th><th scope="col">Bank 3</th><th scope="col">User output</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">All agree</th><td>1,000</td><td>1,000</td><td>1,000</td><td>1,000</td></tr>
+            <tr><th scope="row">Two agree</th><td>1,000</td><td>1,500</td><td>1,000</td><td>1,000</td></tr>
+            <tr><th scope="row">None agree</th><td>1,000</td><td>100</td><td>500</td><td><code>fail</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figure class="research-figure">
+  <a href="assets/sip/quorum-runs.png"><img src="assets/sip/quorum-runs.png" width="2121" height="915" alt="Original terminal captures for three cases: all banks return 1000 and the user receives 1000; banks return 1000, 1500, 1000 and the user receives 1000; banks return 1000, 100, 500 and the user receives fail." loading="lazy"></a>
+  <figcaption>Recorded runs across the three bank processes and the user process. The circled outputs are 1000, 1000, and fail, matching the cases above.</figcaption>
+</figure>
+      <p>The second run shows why pairwise comparison matters: two comparisons encounter conflicting values, but the remaining pair agrees on 1,000. In the third run, every pair disagrees, so selection cannot produce a majority balance and the program reports <code>fail</code>.</p>
+      <h3>Scope of the demonstration</h3>
+      <p>These runs demonstrate the quorum’s behavior for supplied balance values. They do not measure throughput, network latency, or behavior under arbitrary network failures. The disagreement cases use manually entered inputs rather than an actual attack on a bank service.</p>
+      <p>A majority establishes agreement, not truth by itself. Two replicas returning the same incorrect balance could outvote a correct third replica. The example also does not implement a full banking service or a general Byzantine consensus protocol. Its focus is composing communication and quorum operations with explicit assumptions about the replicas.</p>
+    </section>
+
+    <section aria-labelledby="references-title">
+      <h2 class="section-title" id="references-title">Research context</h2>
+      <p>This was a team project completed with Allison Shi and Amy Vitek, mentored by Priyanka Mondal at UC Santa Cruz. Our work built on existing research in functional choreographic programming and fault-tolerant language abstractions.</p>
+      <ul class="method-list">
+        <li>Gan Shen, Shun Kashiwa, and Lindsey Kuper. <cite>HasChor: Functional Choreographic Programming for All</cite>. ICFP, 2023. <a href="https://github.com/gshen42/HasChor">HasChor library</a>.</li>
+        <li>Priyanka Mondal, Max Algehed, and Owen Arden. <cite>Applying Consensus and Replication Securely with FLAQR</cite>. IEEE CSF, 2022.</li>
+        <li><a href="https://github.com/Priyanka-Mondal/FlameChor">FlameChor</a>, the research library referenced by our project, integrates fault-tolerant features and flow-limited authorization with choreographic programming.</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> Jimmy Youngjae Sim</p>
+      <nav aria-label="Social links">
+        <a class="social-link" href="mailto:simj@berkeley.edu" aria-label="Email Jimmy" title="Email">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+        </a>
+        <a class="social-link" href="https://github.com/Jimmy-Sim" aria-label="Jimmy on GitHub" title="GitHub">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .75a11.25 11.25 0 0 0-3.558 21.923c.563.104.768-.244.768-.542 0-.267-.01-.974-.015-1.912-3.13.68-3.79-1.509-3.79-1.509-.512-1.3-1.25-1.646-1.25-1.646-1.023-.7.078-.686.078-.686 1.132.08 1.727 1.162 1.727 1.162 1.006 1.724 2.64 1.226 3.283.938.102-.729.394-1.226.715-1.508-2.499-.284-5.126-1.25-5.126-5.563 0-1.229.439-2.233 1.16-3.02-.116-.285-.503-1.43.11-2.982 0 0 .945-.303 3.094 1.154a10.79 10.79 0 0 1 2.814-.378c.956.005 1.919.129 2.814.378 2.148-1.457 3.091-1.154 3.091-1.154.615 1.552.228 2.697.112 2.982.723.787 1.159 1.791 1.159 3.02 0 4.324-2.631 5.276-5.138 5.554.404.35.765 1.042.765 2.1 0 1.517-.014 2.741-.014 3.113 0 .3.203.65.774.54A11.252 11.252 0 0 0 12 .75Z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/in/jimmy-sim/" aria-label="Jimmy on LinkedIn" title="LinkedIn">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.98 0 3.58 1.96 3.58 4.51v5.26Z"/></svg>
+        </a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
