@@ -13,6 +13,7 @@ Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common c
 - `projects.html` — research and technical projects.
 - `retinal-imaging.html` and `pothole-detection.html` — detailed research articles with methods, presentation figures, and paper-reported results.
 - `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
+- `presolve.html` — contribution overview and an illustrative presolve/postsolve example.
 - `stock-prediction.html` — a short research note linked from Projects.
 - `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
 - `resume.pdf` — the latest uploaded résumé.
@@ -74,3 +75,5 @@ The retinal-imaging note follows the supplied JSR paper’s exact title and coau
 ## Research presentation figures
 
 The CVD article uses architecture and age-ablation images extracted from slides 6 and 9 of `IGO Video PPT.pdf`. The pothole article uses the deblurring architecture from KSEF slide 6, a blurred/restored example from slide 12, and a bench-demonstration photograph from slide 13. Embedded image assets were extracted without generative editing; the full presentations are not published. CVD numerical tables follow the journal paper where presentation values differ. Main-page content stays concise; individual research articles provide technical detail.
+
+The presolve article links Matteo Santamaria’s public repository and distinguishes Jimmy’s described contribution scope from the library’s overall capabilities. Its algebraic example is explanatory, not benchmark output or a claim of authorship of specific upstream rules.
