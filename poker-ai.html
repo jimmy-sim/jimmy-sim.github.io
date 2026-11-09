@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poker AI — Jimmy Youngjae Sim</title>
+  <meta name="description" content="An ongoing poker AI project: validated game mechanics, CFR self-play, state abstraction, and reproducible strategy evaluation.">
+  <link rel="stylesheet" href="styles.css?v=dca40ddfc5">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- Shared header: keep the navigation consistent across all HTML pages. -->
+  <header class="site-header">
+    <div class="container masthead">
+      <div class="site-info">
+        <a class="site-name" href="index.html">Jimmy Youngjae Sim</a>
+        <p class="site-description">Applied Mathematics &amp; Computer Science · UC Berkeley</p>
+      </div>
+      <nav aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="education.html">Education</a>
+          <a href="projects.html" aria-current="true">Projects</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container research-note" id="main" tabindex="-1">
+
+<p class="back-link"><a href="projects.html#poker-ai">Back to projects</a></p>
+<h1 class="page-title">Poker AI: Learning and Evaluating Strategies Under Imperfect Information</h1>
+<p class="note-meta">Independent project · Python · October 2026–present</p>
+<p>I am building a poker AI research system from the cards and game engine upward, with an emphasis on game theory, statistical evaluation, and reproducible experiments. The central question is how to learn useful strategies when a player sees only part of the game state—and how to tell whether a measured improvement is real.</p>
+<p>The project now includes a Hold’em engine, counterfactual regret minimization (CFR) solvers, sampled self-play, card and action abstractions, and evaluation tools. Recent work investigates which information a compressed strategy loses, and how training choices interact with that representation.</p>
+<p class="resource-links"><a href="https://github.com/jimmy-sim/poker-ai">Repository</a><a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/learning-journal.md">Learning journal</a><a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/work-log.md">Experiment log</a></p>
+<p class="figure-note">Progress snapshot from repository revision <a href="https://github.com/jimmy-sim/poker-ai/tree/ca0b55521f3acada07d7f14b377052dd9a64ff4f">ca0b555</a>. The figures and measurements below come from committed experiment reports. Competitive full-game playing strength has not yet been established.</p>
+<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#foundation">Foundation</a><a href="#learning">Learning strategies</a><a href="#abstraction">State abstraction</a><a href="#diagnosis">Training diagnosis</a><a href="#evaluation">Match evaluation</a></nav>
+
+<section id="foundation" aria-labelledby="foundation-title">
+<h2 class="section-title" id="foundation-title">Building a trustworthy foundation</h2>
+<p>Strategy results depend on the mechanics beneath them. I implemented card encodings, an immutable deck, hand evaluation, equity calculation, and a two-to-six-seat Hold’em engine, then checked them against independent implementations.</p>
+<ul class="method-list">
+<li><strong>Five-card evaluation:</strong> all 2,598,960 possible hands checked against Treys, with zero disagreements across 7,462 distinct ranks.</li>
+<li><strong>Best-five selection:</strong> two million seeded six- and seven-card hands checked against Treys, with zero disagreements. These are sampled checks rather than exhaustive coverage.</li>
+<li><strong>Game mechanics:</strong> 1,000 seeded independent traces covering 10,039 actions and 471 side-pot hands, with no unexplained mismatches within the documented comparison scope.</li>
+</ul>
+<p>The engine checks shared actions and rational terminal shares; differences involving short blinds, short raises, free folds, and integer rounding are documented explicitly. <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/phase1-engine.md">Engine validation and scope</a>.</p>
+</section>
+
+<section id="learning" aria-labelledby="learning-title">
+<h2 class="section-title" id="learning-title">Learning strategies through self-play</h2>
+<p>CFR updates a strategy using the regret associated with actions it could have taken. Repeated self-play produces an average strategy; sampled variants reduce the cost of traversing the game tree. I implemented exact CFR, CFR+, Linear CFR, and Discounted CFR, followed by external- and outcome-sampling methods.</p>
+<p>On the smaller Kuhn and Leduc poker games, matched-iteration exploitability agreed with OpenSpiel to a maximum discrepancy of 1.39 × 10<sup>−16</sup> ante chips per hand. These comparisons validate the solver implementation on those games. OpenSpiel supplies independent comparison values; its strategies are not used to train my learners.</p>
+<p><strong>Exploitability</strong> measures how much an optimal counterstrategy can gain against a saved strategy. The reports use NashConv/2; restricted Hold’em studies normalize it by the initial pot. Lower values are better. This metric is different from a win rate against a particular opponent.</p>
+<figure class="research-figure"><a href="assets/poker-ai/cfr-convergence.png"><img src="assets/poker-ai/cfr-convergence.png" width="1760" height="640" alt="Recorded CFR convergence curves for the toy-game solver validation." loading="lazy"></a><figcaption>Recorded convergence in the toy-game validation. Exact CFR variants were compared with OpenSpiel at matched iterations. <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/phase2-solvers.md">Methods and numerical results</a>.</figcaption></figure>
+<p>A later procedure check froze the training method and inputs before separately training four fresh restricted turn–river games. All four met the declared final accuracy and average-coverage limits at ten million node-work; the closest case reached median exploitability of 0.9670% of the pot against a 1% median limit. Each game had only two physical combinations per seat and three fixed training seeds. This tests the procedure across new small games, rather than one policy generalizing to unseen boards. <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/fresh-validation.md">Frozen protocol and results</a>.</p>
+</section>
+
+<section id="abstraction" aria-labelledby="abstraction-title">
+<h2 class="section-title" id="abstraction-title">Which distinctions can a strategy afford to lose?</h2>
+<p>A full poker state space is too large to enumerate directly. An abstraction groups situations under a shared strategy entry. The challenge is preserving strategically relevant differences: board texture, relative hand strength, and blockers can change the best action even when two hands share a broad category.</p>
+<p>I compared representations at fixed computational work, retained failed candidates, and used saved-policy response analysis to find concrete merged decisions that require different treatment. A coarse texture representation reduced strategy rows from 3,336 to 1,392 in one medium development game, but raised final median exploitability from 0.234% to 7.37% of the pot.</p>
+<p>A richer range-mass representation incorporates how a hand fares against the configured opponent range. At 4,096 full-tree iterations it reduced that game’s exploitability from the made-category representation’s 2.593658% to 0.271640%. The next test asked whether this gain survived sampled learning at matched work.</p>
+<div class="table-scroll" role="region" aria-label="Restricted game abstraction comparison" tabindex="0"><table class="results-table"><caption>One medium development game, ten-million-node-work checkpoint. Median and worst exploitability across three fixed seeds, as percentages of the initial pot.</caption><thead><tr><th scope="col">Representation</th><th scope="col">Median</th><th scope="col">Worst seed</th></tr></thead><tbody><tr><th scope="row">Exact / raw public</th><td>0.233819%</td><td>0.254711%</td></tr><tr><th scope="row">Coarse texture</th><td>7.369740%</td><td>9.687540%</td></tr><tr><th scope="row">Texture + made-hand category</th><td>6.722860%</td><td>7.188980%</td></tr><tr><th scope="row">Texture + range mass</th><td>4.480481%</td><td>5.506634%</td></tr></tbody></table></div>
+<figure class="research-figure"><a href="assets/poker-ai/sampled-learning.png"><img src="assets/poker-ai/sampled-learning.png" width="2240" height="768" alt="Fixed-work sampled learning curves comparing five state representations on two development games." loading="lazy"></a><figcaption>Sampled-learning comparison at fixed node-work budgets. The range-mass candidate improved on the made-category representation but failed the deeper game’s preset 1% median and 2.5% worst-seed limits. All 90 saved policies passed the recorded replay and native checks. <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/range-mass-sampled.md">Protocol and retained outcomes</a>.</figcaption></figure>
+<p>The result separates two questions: whether the representation can express a strong strategy, and whether the sampled training procedure learns one at the allotted work. Fewer strategy rows also do not automatically mean lower total memory use; longer feature keys have their own storage cost.</p>
+</section>
+
+<section id="diagnosis" aria-labelledby="diagnosis-title">
+<h2 class="section-title" id="diagnosis-title">Diagnosing the remaining strategy gap</h2>
+<p>I analyzed saved policies with best responses, separated gains available within the compressed information partition from gains requiring exact information, and swapped saved turn and river continuations while holding opponents fixed. These interventions located much of the measured gap change in the river continuation.</p>
+<p>The follow-up controlled comparison covers 140 runs and 840 checkpoints across two known games, exact and range-mass representations, full and sampled traversal, signed and clipped regrets, and uniform and linear weighting. Replay error was zero; independent value and response checks agreed within 1.71 × 10<sup>−13</sup> chips.</p>
+<p>In the medium range-mass game, with linear regret weighting at the ten-million-work label, clipping changed mean exploitability from 4.354032% to 2.501852% under linear strategy averaging. Under uniform averaging, the direction reversed: signed regrets reached 2.664089%, compared with 3.525759% for clipped regrets. This interaction makes averaging and clipping important experimental controls. These are known-game diagnostic results; the study did not select or deploy a new default recipe.</p>
+<p><a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/controlled-learning-comparison.md">Controlled comparison</a> · <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/results/controlled-learning/report/tables.md">Complete endpoint tables</a> · <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/controlled-reply-diagnosis.md">Saved-policy follow-up</a></p>
+</section>
+
+<section id="evaluation" aria-labelledby="evaluation-title">
+<h2 class="section-title" id="evaluation-title">Evaluating matches without overstating strength</h2>
+<p>A separate evaluation contains 36,000 simulated hands against six fixed opponents using three frozen training seeds. It reuses 1,000 independently drawn decks across both seats and policies to reduce variance. The independent statistical units are the deck clusters, not all 36,000 hands.</p>
+<figure class="research-figure"><a href="assets/poker-ai/match-intervals.png"><img src="assets/poker-ai/match-intervals.png" width="1760" height="800" alt="Recorded win-rate estimates and uncertainty intervals for six fixed simulated opponents." loading="lazy"></a><figcaption>Match estimates and uncertainty from the duplicate-deal study. Positive point estimates against some baselines coexist with losses against the tight-aggressive and equity opponents. No positive advantage passed the predeclared conservative six-opponent Bonferroni–Hoeffding test. <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/phase4-evaluation.md">Evaluation design and results</a>.</figcaption></figure>
+<p>The project also includes Bayesian opponent models on toy games and conditional bankroll-risk studies. These extend the statistical analysis without establishing a positive real-world poker edge. Current gameplay work uses simulation and permitted public bot benchmarks.</p>
+<p>Each study retains its inputs, seeds, frozen policies, checks, and report-generation commands. The linked <a href="https://github.com/jimmy-sim/poker-ai">repository</a> tracks ongoing progress beyond this snapshot; the <a href="https://github.com/jimmy-sim/poker-ai/blob/ca0b55521f3acada07d7f14b377052dd9a64ff4f/docs/learning-journal.md">learning journal</a> explains how the questions and experiments developed.</p>
+</section>
+
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year">2026</span> Jimmy Youngjae Sim</p>
+      <nav aria-label="Social links">
+        <a class="social-link" href="mailto:simj@berkeley.edu" aria-label="Email Jimmy" title="Email">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+        </a>
+        <a class="social-link" href="https://github.com/Jimmy-Sim" aria-label="Jimmy on GitHub" title="GitHub">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .75a11.25 11.25 0 0 0-3.558 21.923c.563.104.768-.244.768-.542 0-.267-.01-.974-.015-1.912-3.13.68-3.79-1.509-3.79-1.509-.512-1.3-1.25-1.646-1.25-1.646-1.023-.7.078-.686.078-.686 1.132.08 1.727 1.162 1.727 1.162 1.006 1.724 2.64 1.226 3.283.938.102-.729.394-1.226.715-1.508-2.499-.284-5.126-1.25-5.126-5.563 0-1.229.439-2.233 1.16-3.02-.116-.285-.503-1.43.11-2.982 0 0 .945-.303 3.094 1.154a10.79 10.79 0 0 1 2.814-.378c.956.005 1.919.129 2.814.378 2.148-1.457 3.091-1.154 3.091-1.154.615 1.552.228 2.697.112 2.982.723.787 1.159 1.791 1.159 3.02 0 4.324-2.631 5.276-5.138 5.554.404.35.765 1.042.765 2.1 0 1.517-.014 2.741-.014 3.113 0 .3.203.65.774.54A11.252 11.252 0 0 0 12 .75Z"/></svg>
+        </a>
+        <a class="social-link" href="https://www.linkedin.com/in/jimmy-sim/" aria-label="Jimmy on LinkedIn" title="LinkedIn">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.98 0 3.58 1.96 3.58 4.51v5.26Z"/></svg>
+        </a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

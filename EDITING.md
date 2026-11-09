@@ -45,6 +45,7 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Biography, technical interests, personal background | `index.html` |
 | Schools, coursework, graduation date | `education.html` |
 | Project descriptions and paper/code links | `projects.html` |
+| Poker AI progress article and original result plots | `poker-ai.html` and `assets/poker-ai/` |
 | CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
 | Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
 | SIP Haskell research article, figures, and source mapping | `distributed-systems.html` and `assets/sip/` |
