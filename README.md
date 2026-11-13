@@ -1,4 +1,4 @@
-# Jimmy Youngjae Sim
+# jimmy-sim.github.io
 
 My personal website: [jimmy-sim.github.io](https://jimmy-sim.github.io/).
 
