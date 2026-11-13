@@ -1,8 +1,9 @@
 # Website maintenance
 
-This is Jimmy Youngjae Sim’s plain HTML/CSS/JavaScript academic website, published from `main` in `jimmy-sim/jimmy-sim.github.io`. Read README.md and EDITING.md for file mapping and the beginner workflow.
+This is Jimmy Youngjae Sim’s plain HTML/CSS/JavaScript academic website, published from `main` in `jimmy-sim/jimmy-sim.github.io`. Read README.md and docs/EDITING.md for file mapping and the beginner workflow.
 
 - Use this existing isolated checkout; do not create a worktree unless requested.
+- Keep HTML pages and resume.pdf at the root; shared CSS/JS live in assets/css/ and assets/js/, the portrait in assets/images/, and guides/source notes in docs/.
 - Preserve the minimal academic design, separate pages, content, photos, and résumé unless the user requests changes. Do not introduce frameworks, package dependencies, external fonts, or a build step for routine edits.
 - Keep the home page and project index concise, but make individual research articles thorough enough to demonstrate methods, experience, evidence, and tradeoffs. Follow Matteo Santamaria’s Dantzig article as a structural reference, using the site’s restrained layout. Use source-backed diagrams, figures, equations, and results where useful. Keep the stock-prediction Keynote private; publish its curated summary, selected original plots, and user-supplied code. Preserve the archived code logic and distinguish supplied figures from newly executed results. Do not fabricate plots, results, or evaluation protocols.
 - Make article captions and explanations self-contained. Do not refer readers to unpublished presentations or slide numbers; retain asset provenance in maintenance documentation instead.
@@ -14,6 +15,6 @@ This is Jimmy Youngjae Sim’s plain HTML/CSS/JavaScript academic website, publi
 - Review the working tree and fetch before publishing. Preserve user edits and uploads. This repository was recreated with fresh history; do not merge or push history from its deleted predecessor or local backups.
 - Use commit author and committer `Jimmy Sim <77947780+jimmy-sim@users.noreply.github.com>`. Verify actual commit metadata before pushing. Do not use the Codex account owner’s default Git identity.
 - For an explicitly requested publication, use a normal push to `origin HEAD:main`. Do not force-push, rewrite history, delete repositories, or change Pages settings for routine edits. If the user only requests advice or a draft, do not publish.
-- Check `git diff --check`. For JavaScript changes use `node --check script.js` when Node is available. For layout/navigation changes, check affected pages in a browser at mobile and desktop widths, local links and anchors, image loading/proportions, and the PDF if affected. Keep any temporary browser tooling outside the repository. Do not add tests that merely mirror content edits.
+- Check `git diff --check`. For JavaScript changes use `node --check assets/js/script.js` when Node is available. For layout/navigation changes, check affected pages in a browser at mobile and desktop widths, local links and anchors, image loading/proportions, and the PDF if affected. Keep any temporary browser tooling outside the repository. Do not add tests that merely mirror content edits.
 - No installation is required. Open index.html directly, or use Python’s local HTTP server for internal validation. Do not present loopback links as public cloud previews. Live processes do not persist between cloud tasks.
 - Keep the user informed about what was changed, verified, committed, and pushed. A successful push is not proof that GitHub Pages deployed. GitHub API access may be blocked even when Git reads and pushes work; do not claim settings or contributor lists were changed without evidence.

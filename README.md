@@ -10,10 +10,12 @@ Built with plain HTML, CSS, and JavaScript. No dependencies or build step.
 - `education.html` — Education and coursework
 - `projects.html` — Project listing; individual projects have their own HTML pages
 - `resume.pdf` — Downloadable résumé
-- `styles.css` — Shared appearance and mobile layout
-- `assets/` — Project figures, papers, and code
+- `assets/css/` and `assets/js/` — Shared styles and scripts
+- `assets/images/` — Home-page portrait
+- Other `assets/` folders — Project figures, papers, and code
+- `docs/` — Editing guides and content sources
 
-See [EDITING.md](EDITING.md) for detailed editing instructions and [CONTENT-SOURCES.md](CONTENT-SOURCES.md) for source notes.
+See [the editing guide](docs/EDITING.md) for instructions and [content sources](docs/CONTENT-SOURCES.md) for source notes.
 
 ## Preview
 

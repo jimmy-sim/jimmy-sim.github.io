@@ -39,6 +39,8 @@ Open `index.html` in your browser and follow its links. No installation or build
 
 ## Which file to edit
 
+All paths below are relative to the repository root. Guides live in `docs/`, shared styles and scripts in `assets/css/` and `assets/js/`, and the home portrait in `assets/images/`. HTML pages and `resume.pdf` stay at the root to preserve their public URLs.
+
 | Change | File |
 | --- | --- |
 | Home introduction and selected work | `index.html` |
@@ -52,10 +54,9 @@ Open `index.html` in your browser and follow its links. No installation or build
 | Résumé link beside your biography | `index.html` |
 | Downloadable résumé | Replace `resume.pdf` |
 | Email and profile links | Footer links in all HTML pages |
-| Original headshot | `headshot.png` is retained but currently unused |
-| Home-page portrait | Replace `outdoor.jpg`; update its dimensions and alt text in `index.html` |
-| Fonts, spacing, colors, mobile layout | `styles.css` |
-| Automatic copyright year | `script.js` |
+| Home-page portrait | Replace `assets/images/outdoor.jpg`; update its dimensions and alt text in `index.html` |
+| Fonts, spacing, colors, mobile layout | `assets/css/styles.css` |
+| Automatic copyright year | `assets/js/script.js` |
 
 The HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across every page. The active navigation link uses `aria-current="page"`.
 
@@ -65,7 +66,7 @@ The HTML pages each include their own header and footer. Changes to navigation, 
 
 **Add a link:** use `<a href="https://example.com">Descriptive link text</a>`. For local files use `resume.pdf` or `education.html`. Match capitalization exactly.
 
-**Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `styles.css`, change that version to the same new value in every page pages so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
+**Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `assets/css/styles.css`, change that version to the same new value in every HTML page so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
 
 **Write special characters:** write `&amp;` for an ampersand in HTML text and `&lt;` for a literal less-than sign. Keep attribute values inside quotes.
 
@@ -75,7 +76,7 @@ The HTML pages each include their own header and footer. Changes to navigation, 
 
 1. Preview every page you changed. Check a narrow phone-sized window and a desktop window.
 2. Follow links, view the photos, and open the résumé. Tab through links to check keyboard focus.
-3. Review your changes with `git diff`. If Node.js is available and you edited JavaScript, run `node --check script.js`.
+3. Review your changes with `git diff`. If Node.js is available and you edited JavaScript, run `node --check assets/js/script.js`.
 4. Run the helper with a description and **only the files you edited**:
 
    ```sh

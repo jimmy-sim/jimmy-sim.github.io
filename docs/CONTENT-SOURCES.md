@@ -1,5 +1,6 @@
 # Content sources
 
+File paths in these notes are relative to the repository root.
 
 Current Berkeley information and the downloadable résumé come from the more recent résumé and Jimmy’s direct updates. Additional high-school activities and project details come from the older, detailed high-school résumé. Historical “Present” labels are not carried forward as current roles. High-school activities are summarized briefly; detailed awards and activities are left to the résumé. The source résumés disagree on USACO division, so confirm it before adding that distinction. The older document is not published as a second résumé.
 
