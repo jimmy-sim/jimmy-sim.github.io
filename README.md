@@ -18,8 +18,6 @@ Built with plain HTML, CSS, and JavaScript. No dependencies or build step.
 
 See [the editing guide](docs/EDITING.md) for instructions and [content sources](docs/CONTENT-SOURCES.md) for source notes.
 
-The small project HTML files at the root redirect older links to `projects/`. Edit the articles inside that folder.
-
 ## Preview
 
 Open `index.html` in your browser, or run:

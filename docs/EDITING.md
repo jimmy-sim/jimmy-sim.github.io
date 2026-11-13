@@ -41,7 +41,7 @@ Open `index.html` in your browser and follow its links. No installation or build
 
 All paths below are relative to the repository root. Guides live in `docs/`, shared styles and scripts in `assets/css/` and `assets/js/`, and the home portrait in `assets/images/`. Detailed articles live in `projects/`. Home, Education, the Projects listing, and `resume.pdf` stay at the root.
 
-The old article filenames at the root contain small redirects so shared links still work. Edit the full articles in `projects/`; keep the redirects in place. JavaScript redirects preserve query strings and section anchors, with a fallback for browsers without JavaScript.
+Edit project articles in `projects/` and share their URLs from that folder. The previous root-level article URLs have been retired.
 
 | Change | File |
 | --- | --- |
@@ -61,7 +61,7 @@ The old article filenames at the root contain small redirects so shared links st
 | Fonts, spacing, colors, mobile layout | `assets/css/styles.css` |
 | Automatic copyright year | `assets/js/script.js` |
 
-The main pages and project articles each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across those pages. The root-level redirect files do not need these updates. The active navigation link uses `aria-current="page"`.
+The main pages and project articles each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across those pages. The active navigation link uses `aria-current="page"`.
 
 ## Common edits
 
