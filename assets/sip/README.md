@@ -1,6 +1,6 @@
 # SIP article sources
 
-`distributed-systems.html` is based on Jimmy’s supplied `SIP Presentation.pdf` (78 PDF pages, including animation steps), `SIP Presentation Video Transcript - Polished.pdf` (four pages), and the current résumé. Neither complete PDF is published here. Page numbers below are **one-based PDF pages**, not the printed slide numbers.
+`projects/distributed-systems.html` is based on Jimmy’s supplied `SIP Presentation.pdf` (78 PDF pages, including animation steps), `SIP Presentation Video Transcript - Polished.pdf` (four pages), and the current résumé. Neither complete PDF is published here. Page numbers below are **one-based PDF pages**, not the printed slide numbers.
 
 ## Matching the narration to the animation sequence
 

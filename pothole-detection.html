@@ -3,97 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pothole Detection Under Motion Blur — Jimmy Youngjae Sim</title>
-  <meta name="description" content="Research note on image deblurring, pothole detection, and NVIDIA Jetson deployment.">
-  <link rel="stylesheet" href="assets/css/styles.css?v=dca40ddfc5">
-  <script src="assets/js/script.js" defer></script>
+  <title>Project — Jimmy Youngjae Sim</title>
+  <link rel="canonical" href="https://jimmy-sim.github.io/projects/pothole-detection.html">
+  <script src="assets/js/project-redirect.js" data-target="projects/pothole-detection.html" defer></script>
+  <noscript><meta http-equiv="refresh" content="0; url=projects/pothole-detection.html"></noscript>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
-  <!-- Shared header: keep the navigation consistent across all HTML pages. -->
-  <header class="site-header">
-    <div class="container masthead">
-      <div class="site-info">
-        <a class="site-name" href="index.html">Jimmy Youngjae Sim</a>
-        <p class="site-description">Applied Mathematics &amp; Computer Science · UC Berkeley</p>
-      </div>
-      <nav aria-label="Main navigation">
-          <a href="index.html">Home</a>
-          <a href="education.html">Education</a>
-          <a href="projects.html" aria-current="true">Projects</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container research-note" id="main" tabindex="-1">
-
-<p class="back-link"><a href="projects.html#pothole-detection">Back to projects</a></p>
-<h1 class="page-title">Making Pothole Detection More Robust to Motion Blur</h1>
-<p class="note-meta">Youngjae Sim and Taehee Kim · April–October 2024</p>
-<p>A detector that works on a clear road photograph can struggle when a camera is moving. In this project, we paired an image-deblurring network with a pothole detector and investigated how that combination performed under blur and on embedded hardware.</p>
-<p>I worked on training and evaluating models in Python and deploying the system on an NVIDIA Jetson board. The coauthored paper is titled <cite>Enhancing Pothole Detection Robustness to Blurred Images and Real-Time Implementation on Embedded Boards</cite>.</p>
-<p class="resource-links"><a href="assets/papers/pothole-cjsj-submission.pdf">Read CJSJ submission (PDF)</a><a href="assets/papers/pothole-cjsj-submission.pdf" download>Download PDF</a></p>
-<p class="figure-note">2024–25 Columbia Junior Science Journal submission · Semifinalist.</p>
-<nav class="article-contents" aria-label="On this page"><span>On this page</span><a href="#motivation">Problem</a><a href="#pipeline">Pipeline</a><a href="#evaluation">Evaluation</a><a href="#deployment">Deployment</a></nav>
-<section id="motivation" aria-labelledby="motivation-title">
-<h2 class="section-title" id="motivation-title">The gap between clear images and moving cameras</h2>
-<p>Motion blur removes edges and texture that help distinguish a pothole from the surrounding road. A system intended for vehicle-mounted cameras needs to handle that degradation, as well as detect and localize the damage.</p>
-<p>We investigated an explicit restoration stage: recover useful visual structure before passing the image to an object detector. The goal was to measure whether deblurring improved the downstream task, not just the appearance of an image.</p>
-</section>
-<section id="pipeline" aria-labelledby="pipeline-title">
-<h2 class="section-title" id="pipeline-title">Restoration before detection</h2>
-<figure class="research-figure">
-  <a href="assets/pothole/deblurring-network.jpeg" aria-label="View full-size figure: An encoder-decoder network transforms a blurred road image into a deblurred image."><img src="assets/pothole/deblurring-network.jpeg" width="1369" height="355" alt="An encoder-decoder network transforms a blurred road image into a deblurred image." loading="lazy" decoding="async"></a>
-  <figcaption>An encoder-decoder network restores a blurred road image before detection.</figcaption>
-</figure>
-<p>The first stage is an encoder-decoder restoration network. Its pixel-level L1 loss encourages agreement with the reference image, while a perceptual loss compares VGG19 feature activations to retain higher-level visual structure.</p>
-<div class="plot-comparison">
-<figure class="research-figure">
-  <a href="assets/pothole/blurred-road.jpeg" aria-label="View full-size figure: Blurred road image with indistinct edges around several potholes."><img src="assets/pothole/blurred-road.jpeg" width="449" height="300" alt="Blurred road image with indistinct edges around several potholes." loading="lazy" decoding="async"></a>
-  <figcaption>Blurred road image before restoration.</figcaption>
-</figure><figure class="research-figure">
-  <a href="assets/pothole/deblurred-road.jpeg" aria-label="View full-size figure: The corresponding restored road image, with more distinct pothole boundaries."><img src="assets/pothole/deblurred-road.jpeg" width="449" height="300" alt="The corresponding restored road image, with more distinct pothole boundaries." loading="lazy" decoding="async"></a>
-  <figcaption>Restored image with more distinct pothole boundaries.</figcaption>
-</figure>
-</div>
-<p>The second stage detects potholes and returns bounding boxes. Its objective includes localization, confidence, and classification terms:</p>
-<p class="research-equation" aria-label="Detection objective comprises localization, confidence, and classification losses"><var>L</var><sub>detector</sub>: localization + confidence + classification</p>
-<ul class="method-list"><li><strong>Localization:</strong> penalize errors in box position and dimensions.</li><li><strong>Confidence:</strong> distinguish object-containing regions from background.</li><li><strong>Classification:</strong> identify potholes in object-containing regions.</li></ul>
-<p>This distinction matters: recognizing that a pothole exists does not guarantee that its bounding box is accurate.</p>
-</section>
-<section id="evaluation" aria-labelledby="evaluation-title">
-<h2 class="section-title" id="evaluation-title">Evaluating robustness to blur</h2>
-<p>The study combined Roboflow pothole images and the Google Bangkit 2021 dataset, covering both longer-distance and closer road views, with an 80/20 training/test split.</p>
-<p>We compared EfficientDet, RetinaNet, FocalNet, YOLOv5, and DETR under three conditions: clear images, blurred images, and blurred images processed by the proposed restoration network.</p>
-<div class="table-scroll" role="region" aria-label="Pothole detector average precision results" tabindex="0"><table class="results-table"><caption>AP scores reported in Table 1 of the linked paper.</caption><thead><tr><th scope="col">Detector</th><th scope="col">Clear</th><th scope="col">Blurred</th><th scope="col">Deblurred</th></tr></thead><tbody><tr><th scope="row">EfficientDet</th><td>65.4</td><td>48.1</td><td>54.4</td></tr><tr><th scope="row">RetinaNet</th><td>66.7</td><td>49.5</td><td>54.8</td></tr><tr><th scope="row">FocalNet</th><td>70.1</td><td>53.7</td><td>57.9</td></tr><tr><th scope="row">YOLOv5</th><td>74.7</td><td>54.7</td><td>60.1</td></tr><tr><th scope="row">DETR</th><td>77.5</td><td>57.9</td><td>65.2</td></tr></tbody></table></div>
-<p>Deblurring improved AP for every architecture relative to the blurred condition. For YOLOv5, AP rose from 54.7 to 60.1: a gain of 5.4 AP points, or approximately 9.9% relative improvement.</p>
-<p>The pothole true-positive rate increased from 66.9% under blur to 89.9% after restoration. Recognition improved, while further improvement in bounding-box localization remained an open problem.</p>
-</section>
-<section id="deployment" aria-labelledby="deployment-title">
-<h2 class="section-title" id="deployment-title">From model comparison to embedded demonstration</h2>
-<p>DETR achieved the highest AP in the comparison, but its computational and memory demands motivated a different choice for the embedded implementation. We selected YOLOv5 and deployed the system on an NVIDIA Jetson board.</p>
-<figure class="research-figure">
-  <a href="assets/pothole/jetson-demo.jpeg" aria-label="View full-size figure: Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target."><img src="assets/pothole/jetson-demo.jpeg" width="1382" height="655" alt="Desktop display shows the Jetson detection program running and drawing bounding boxes on a road-image target." loading="lazy" decoding="async"></a>
-  <figcaption>The detection program running on a road-image target during an embedded-system bench demonstration.</figcaption>
-</figure>
-<p>The proposed mapping workflow associates pothole detections with latitude and longitude, then visualizes them to identify recurring problem areas. That connects detection output to a practical road-maintenance use case.</p>
-</section>
-<p class="figure-note">Reported results are from the coauthored CJSJ submission linked above.</p>
-  </main>
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year">2026</span> Jimmy Youngjae Sim</p>
-      <nav aria-label="Social links">
-        <a class="social-link" href="mailto:simj@berkeley.edu" aria-label="Email Jimmy" title="Email">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
-        </a>
-        <a class="social-link" href="https://github.com/Jimmy-Sim" aria-label="Jimmy on GitHub" title="GitHub">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .75a11.25 11.25 0 0 0-3.558 21.923c.563.104.768-.244.768-.542 0-.267-.01-.974-.015-1.912-3.13.68-3.79-1.509-3.79-1.509-.512-1.3-1.25-1.646-1.25-1.646-1.023-.7.078-.686.078-.686 1.132.08 1.727 1.162 1.727 1.162 1.006 1.724 2.64 1.226 3.283.938.102-.729.394-1.226.715-1.508-2.499-.284-5.126-1.25-5.126-5.563 0-1.229.439-2.233 1.16-3.02-.116-.285-.503-1.43.11-2.982 0 0 .945-.303 3.094 1.154a10.79 10.79 0 0 1 2.814-.378c.956.005 1.919.129 2.814.378 2.148-1.457 3.091-1.154 3.091-1.154.615 1.552.228 2.697.112 2.982.723.787 1.159 1.791 1.159 3.02 0 4.324-2.631 5.276-5.138 5.554.404.35.765 1.042.765 2.1 0 1.517-.014 2.741-.014 3.113 0 .3.203.65.774.54A11.252 11.252 0 0 0 12 .75Z"/></svg>
-        </a>
-        <a class="social-link" href="https://www.linkedin.com/in/jimmy-sim/" aria-label="Jimmy on LinkedIn" title="LinkedIn">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.98 0 3.58 1.96 3.58 4.51v5.26Z"/></svg>
-        </a>
-      </nav>
-    </div>
-  </footer>
+  <p><a href="projects/pothole-detection.html">Continue to the project article</a>.</p>
 </body>
 </html>

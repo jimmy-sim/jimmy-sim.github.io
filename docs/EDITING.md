@@ -39,7 +39,9 @@ Open `index.html` in your browser and follow its links. No installation or build
 
 ## Which file to edit
 
-All paths below are relative to the repository root. Guides live in `docs/`, shared styles and scripts in `assets/css/` and `assets/js/`, and the home portrait in `assets/images/`. HTML pages and `resume.pdf` stay at the root to preserve their public URLs.
+All paths below are relative to the repository root. Guides live in `docs/`, shared styles and scripts in `assets/css/` and `assets/js/`, and the home portrait in `assets/images/`. Detailed articles live in `projects/`. Home, Education, the Projects listing, and `resume.pdf` stay at the root.
+
+The old article filenames at the root contain small redirects so shared links still work. Edit the full articles in `projects/`; keep the redirects in place. JavaScript redirects preserve query strings and section anchors, with a fallback for browsers without JavaScript.
 
 | Change | File |
 | --- | --- |
@@ -47,10 +49,11 @@ All paths below are relative to the repository root. Guides live in `docs/`, sha
 | Biography, technical interests, personal background | `index.html` |
 | Schools, coursework, graduation date | `education.html` |
 | Project descriptions and paper/code links | `projects.html` |
-| Poker AI progress article and original result plots | `poker-ai.html` and `assets/poker-ai/` |
-| CVD and pothole research notes and papers | `retinal-imaging.html`, `pothole-detection.html`, and `assets/papers/` |
-| Stock-prediction project note and selected plots | `stock-prediction.html` and `assets/stock-prediction/` |
-| SIP Haskell research article, figures, and source mapping | `distributed-systems.html` and `assets/sip/` |
+| Poker AI progress article and original result plots | `projects/poker-ai.html` and `assets/poker-ai/` |
+| CVD and pothole research notes and papers | `projects/retinal-imaging.html`, `projects/pothole-detection.html`, and `assets/papers/` |
+| Stock-prediction project note and selected plots | `projects/stock-prediction.html` and `assets/stock-prediction/` |
+| SIP Haskell research article, figures, and source mapping | `projects/distributed-systems.html` and `assets/sip/` |
+| Presolve contribution article | `projects/presolve.html` |
 | Résumé link beside your biography | `index.html` |
 | Downloadable résumé | Replace `resume.pdf` |
 | Email and profile links | Footer links in all HTML pages |
@@ -58,13 +61,13 @@ All paths below are relative to the repository root. Guides live in `docs/`, sha
 | Fonts, spacing, colors, mobile layout | `assets/css/styles.css` |
 | Automatic copyright year | `assets/js/script.js` |
 
-The HTML pages each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across every page. The active navigation link uses `aria-current="page"`.
+The main pages and project articles each include their own header and footer. Changes to navigation, your displayed name, or footer links must be repeated across those pages. The root-level redirect files do not need these updates. The active navigation link uses `aria-current="page"`.
 
 ## Common edits
 
 **Add a project:** copy an entire `<article class="entry" ...>...</article>` in `projects.html`, then replace its title, dates, and paragraph. Give it a unique ID such as `id="new-project"`. Link to it from Home using `projects.html#new-project` if you want it featured.
 
-**Add a link:** use `<a href="https://example.com">Descriptive link text</a>`. For local files use `resume.pdf` or `education.html`. Match capitalization exactly.
+**Add a link:** use `<a href="https://example.com">Descriptive link text</a>`. From a main page, link to articles with `projects/poker-ai.html`. Inside an article in `projects/`, link back with `../projects.html` and load assets with `../assets/…`. A link such as `#results` stays within the same article. Match capitalization exactly.
 
 **Stylesheet caching:** each page’s stylesheet URL includes a `?v=` version. After changing `assets/css/styles.css`, change that version to the same new value in every HTML page so visitors receive the new styles. Footer SVGs also have explicit dimensions so they remain visible with older styles.
 

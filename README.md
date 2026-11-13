@@ -8,7 +8,8 @@ Built with plain HTML, CSS, and JavaScript. No dependencies or build step.
 
 - `index.html` — Home and biography
 - `education.html` — Education and coursework
-- `projects.html` — Project listing; individual projects have their own HTML pages
+- `projects.html` — Project listing
+- `projects/` — Detailed project articles
 - `resume.pdf` — Downloadable résumé
 - `assets/css/` and `assets/js/` — Shared styles and scripts
 - `assets/images/` — Home-page portrait
@@ -16,6 +17,8 @@ Built with plain HTML, CSS, and JavaScript. No dependencies or build step.
 - `docs/` — Editing guides and content sources
 
 See [the editing guide](docs/EDITING.md) for instructions and [content sources](docs/CONTENT-SOURCES.md) for source notes.
+
+The small project HTML files at the root redirect older links to `projects/`. Edit the articles inside that folder.
 
 ## Preview
 
