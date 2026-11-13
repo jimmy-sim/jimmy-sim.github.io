@@ -1,85 +1,30 @@
-# Jimmy Youngjae Sim — personal website
+# Jimmy Youngjae Sim
 
-A small, academic-style website made with plain HTML, CSS, and JavaScript. There are no dependencies or build steps. The layout takes inspiration from Matteo Santamaria’s personal site: a compact masthead, narrow reading column, restrained typography, and separate pages.
+My personal website: [jimmy-sim.github.io](https://jimmy-sim.github.io/).
 
-## Future edits
+Built with plain HTML, CSS, and JavaScript. No dependencies or build step.
 
-Start with [EDITING.md](EDITING.md) for GitHub editing, local previews, common changes, publishing, and recovery. `AGENTS.md` provides maintenance guidance for future Codex tasks. The optional `scripts/publish.sh` helper publishes only named files using Jimmy’s Git identity.
+## Editing
 
-## Pages and files
+- `index.html` — Home and biography
+- `education.html` — Education and coursework
+- `projects.html` — Project listing; individual projects have their own HTML pages
+- `resume.pdf` — Downloadable résumé
+- `styles.css` — Shared appearance and mobile layout
+- `assets/` — Project figures, papers, and code
 
-- `index.html` — biography, outdoor portrait, résumé link, selected work, and personal background.
-- `education.html` — schools, degree plans, and coursework.
-- `projects.html` — research and technical projects.
-- `retinal-imaging.html` and `pothole-detection.html` — detailed research articles with methods, presentation figures, and paper-reported results.
-- `assets/papers/` — original CVD JSR paper and pothole CJSJ submission PDFs.
-- `presolve.html` — contribution overview and an illustrative presolve/postsolve example.
-- `distributed-systems.html` — 2024 SIP research article: Haskell choreographies, quorum implementation, and recorded demonstration results.
-- `assets/sip/` — selected original SIP diagrams and terminal captures; source mapping in its README.
-- `stock-prediction.html` — a short research note linked from Projects.
-- `assets/stock-prediction/` — original AAPL plots and archived Python/notebook source.
-- `resume.pdf` — the latest uploaded résumé.
-- `headshot.png` — retained original portrait, currently unused.
-- `outdoor.jpg` — portrait on the home page.
-- `styles.css` — shared layout, typography, mobile, and print styles.
-- `script.js` — optional automatic copyright year. All navigation works without JavaScript.
+See [EDITING.md](EDITING.md) for detailed editing instructions and [CONTENT-SOURCES.md](CONTENT-SOURCES.md) for source notes.
 
 ## Preview
 
-Open `index.html` directly in a browser, or run a local server from the repository directory:
+Open `index.html` in your browser, or run:
 
 ```sh
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-On your computer, visit `http://localhost:8000`. Stop the server with **Ctrl+C**. In a cloud terminal, use local HTTP requests for checks; the loopback address is not a public preview URL.
+Then visit `http://localhost:8000` on your computer.
 
-## Content sources
+## Publish
 
-Current Berkeley information and the downloadable résumé come from the more recent résumé and Jimmy’s direct updates. Additional high-school activities and project details come from the older, detailed high-school résumé. Historical “Present” labels are not carried forward as current roles. High-school activities are summarized briefly; detailed awards and activities are left to the résumé. The source résumés disagree on USACO division, so confirm it before adding that distinction. The older document is not published as a second résumé.
-
-## Maintain the site
-
-1. Open the HTML file for the page you want to change and edit the content inside `<main>`.
-2. To add a project, copy an entire project `<article>` in `projects.html`. Give it a unique `id` if you want to link directly to it. Selected projects on the home page link to these IDs.
-3. Add public code or paper URLs when available; none are invented for projects without supplied links.
-4. Replace `resume.pdf` to update the downloadable document and refresh the `?v=` value on its links in Home to avoid cached older copies. The expected graduation date is May 2029, reflecting Jimmy’s confirmed three-year plan using high-school credits.
-5. Replace `outdoor.jpg` to change the home-page portrait. Update the image dimensions and descriptive `alt` text in `index.html` if the replacement differs. The photo keeps its natural proportions and stacks above the text on mobile.
-6. Change colors and typography in `styles.css`; they apply to every page.
-7. The header and footer are deliberately repeated in the HTML files to avoid a build system. If you change a navigation link, name, or footer, update every page. Each page marks its own navigation link with `aria-current="page"`.
-
-Use relative file links such as `education.html` and `resume.pdf` so the site works both locally and on GitHub Pages. Filenames and link capitalization must match.
-
-## Publish with GitHub Pages
-
-Commit and push the files to `main` in `jimmy-sim/jimmy-sim.github.io`. In **Settings → Pages**, select **Deploy from a branch → main → / (root)** and save. No custom Actions workflow or framework is required.
-
-After deployment succeeds, the site should be available at `https://jimmy-sim.github.io/`. Future pushes to `main` trigger updates. Use the repository’s Actions tab to check deployment status if an update does not appear.
-
-## Before publishing changes
-
-- Open each page directly and follow its navigation links.
-- Check narrow mobile and desktop widths for readable text and overflow.
-- Use Tab to check visible keyboard focus and the “Skip to content” link.
-- Open and download the résumé PDF.
-- Review dates, descriptions, contact details, and all public links.
-
-There is no compilation step or committed test suite. The site uses no external fonts, analytics, or JavaScript libraries.
-
-## Project notes
-
-The poker AI article (`poker-ai.html`) summarizes repository revision `ca0b55521f3acada07d7f14b377052dd9a64ff4f`. Jimmy confirmed October 2026–present. Figures in `assets/poker-ai/` are copied unchanged: `results/cfr-convergence.png`, `results/range-mass-sampled/report/learning-work.png`, and `results/evaluation/winrate-intervals.png`. Measurements follow the README and linked study protocols/tables at that revision; experiments were not rerun for the website. The article distinguishes restricted per-game learning and implementation validation from global playing strength, preserves failed gates, and links immutable evidence alongside the live repository. Source docs describe Codex-assisted implementation/reporting; do not invent unaided authorship or personal hours.
-
-The stock-prediction note is a curated summary inspired by the article format of the reference site. Its two plots are original image assets extracted unchanged from the supplied Keynote, not regenerated results. The Keynote and converted slide deck are not published. The note distinguishes visual observations from reproducible benchmark claims. Keep project-index entries concise and link to detailed articles with “Read more.”
-
-The stock note also includes the supplied Colab code as a Python export and a notebook reconstructed from its three model sections. Executable logic is unchanged; only the generated Colab header was replaced with setup/provenance notes. Neither file contains executed outputs. The dataset and pinned dependency versions were not supplied; model training has not been revalidated in this website environment.
-
-The retinal-imaging note follows the supplied JSR paper’s exact title and coauthor list. The pothole note links the CJSJ semifinalist submission, clearly distinguished from publication. Both PDFs are preserved unchanged. Research-note tables transcribe reported results; no research experiments were rerun. The CVD PDF is the authoritative linked paper; the older résumé DOI was not verified against its title and is not used in its place.
-
-## Research presentation figures
-
-The CVD article uses architecture and age-ablation images extracted from slides 6 and 9 of `IGO Video PPT.pdf`. The pothole article uses the deblurring architecture from KSEF slide 6, a blurred/restored example from slide 12, and a bench-demonstration photograph from slide 13. Embedded image assets were extracted without generative editing; the full presentations are not published. CVD numerical tables follow the journal paper where presentation values differ. Main-page content stays concise; individual research articles provide technical detail.
-
-The presolve article links Matteo Santamaria’s public repository and distinguishes Jimmy’s described contribution scope from the library’s overall capabilities. Its algebraic example is explanatory, not benchmark output or a claim of authorship of specific upstream rules.
-
-The SIP article matches the supplied 78-page `SIP Presentation.pdf` animation export with the four-page `SIP Presentation Video Transcript - Polished.pdf`. Selected diagram and terminal regions are rendered from the original PDF, with no regenerated results. The source files are not published in full. See `assets/sip/README.md` for the topic-to-page mapping, exact figure crops, and code provenance. The article credits the team and mentor, distinguishes HasChor/FlameChor from the internship work, and limits its claims to the demonstrated quorum behavior. Code excerpts are transcribed from the original images; no executable project archive or new Haskell run is implied.
+Commit and push to `main`. GitHub Pages publishes from `main` → `/ (root)`. Check the repository’s **Actions** tab for deployment status.
